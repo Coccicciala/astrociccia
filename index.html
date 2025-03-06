@@ -20,6 +20,13 @@
             gap: 20px;
             padding: 20px;
         }
+        .gallery-item {
+            text-align: center;
+        }
+        .gallery a {
+            text-decoration: none;
+            color: inherit;
+        }
         .gallery img {
             width: 30%;
             max-width: 400px;
@@ -31,14 +38,35 @@
         .gallery img:hover {
             transform: scale(1.05);
         }
+        .description {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
     <h1>Astrophotography Gallery</h1>
     <div class="gallery">
-        <img src="palle 1.png" alt="Astro Image 1">
-        <img src="palle 2.png" alt="Astro Image 2">
-        <img src="palle 3.png" alt="Astro Image 3">
+        <div class="gallery-item">
+            <a href="image1.html">
+                <img src="palle 1.png" alt="Astro Image 1">
+            </a>
+            <div class="description">A stunning view of the Orion Nebula.</div>
+        </div>
+        <div class="gallery-item">
+            <a href="image2.html">
+                <img src="palle 2.png" alt="Astro Image 2">
+            </a>
+            <div class="description">The Andromeda Galaxy in breathtaking detail.</div>
+        </div>
+        <div class="gallery-item">
+            <a href="image3.html">
+                <img src="palle 3.png" alt="Astro Image 3">
+            </a>
+            <div class="description">A deep-space capture of the Horsehead Nebula.</div>
+        </div>
     </div>
 </body>
 </html>
+
