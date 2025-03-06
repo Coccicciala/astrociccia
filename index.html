@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astrophotography Gallery</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .gallery img {
+            width: 30%;
+            max-width: 400px;
+            height: auto;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>Astrophotography Gallery</h1>
+    <div class="gallery">
+        <img src="palle 1.png" alt="Astro Image 1">
+        <img src="palle 2.png" alt="Astro Image 2">
+        <img src="palle 3.png" alt="Astro Image 3">
+    </div>
+</body>
+</html>
