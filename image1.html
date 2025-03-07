@@ -286,8 +286,8 @@
             const mouseY = event.clientY - rect.top;
 
             // Calcola la nuova posizione per mantenere il punto sotto il cursore fisso
-            posX = mouseX - (mouseX - posX) * delta;
-            posY = mouseY - (mouseY - posY) * delta;
+            posX = (mouseX - posX * scale) * (1 - delta);
+            posY = (mouseY - posY * scale) * (1 - delta);
 
             // Applica la trasformazione
             this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
@@ -320,7 +320,7 @@
 
         fullscreenImg.addEventListener('mouseleave', function() {
             isDragging = false;
-        }); 
+        });
     </script>
 </body>
 </html>
