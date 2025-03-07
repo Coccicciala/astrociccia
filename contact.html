@@ -56,13 +56,14 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }                                       <!-- FINE MENU TENDINA -->
-
         .container {
+            max-width: 800px; <!-- LARGHEZZA SLOT NERO -->
+            margin: 0 auto;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            max-width: 600px;
-            margin: 80px auto;
+            background: rgba(0, 0, 0, 0.7); /* Sfondo nero semitrasparente per il contenuto */
             border-radius: 10px;
+            position: relative; /* Assicura che il contenuto sia sopra l'overlay */
+            z-index: 1; /* Posiziona il contenuto sopra l'overlay */
         }
         a {
             color: #0af;
@@ -87,6 +88,7 @@
         <p>Mi trovate qui</p>
         <p><strong>Instagram:</strong> <a href="https://www.instagram.com/yourusername" target="_blank">@yourusername</a></p>
         <p><strong>Email:</strong> tommasocicca06@gmail.com</p>
+        <p><strong>GiutHub:</strong> https://github.com/Coccicciala/astrociccia.git</p>
         <p><a href="index.html">Back to Gallery</a></p>
     </div>
 </body>
