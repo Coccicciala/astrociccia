@@ -15,26 +15,26 @@
             padding: 0;
         }
         .overlay {
-            background: rgba(0, 0, 0, 0.6); /* Sfondo nero semitrasparente */
+            background: rgba(0, 0, 0, 0.6);
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Posiziona l'overlay dietro al contenuto */
+            z-index: -1;
         }
         .container {
-            max-width: 1280px; /* Larghezza del contenitore */
-            margin: 0 auto; /* Centra il contenitore */
+            max-width: 1280px;
+            margin: 0 auto;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7); /* Sfondo nero semitrasparente */
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
             position: relative;
             z-index: 1;
         }
         .astro-image {
             width: 100%;
-            max-width: 800px; /* Larghezza massima dell'immagine */
+            max-width: 800px;
             height: auto;
             border: 2px solid #fff;
             border-radius: 10px;
@@ -66,7 +66,7 @@
         .download-link {
             display: block;
             margin-top: 20px;
-            color: #0f0;
+            color: #DE3163;
             text-decoration: none;
             font-size: 18px;
         }
@@ -120,10 +120,51 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        /* Stili per le sezioni a tendina */
+        .accordion {
+            background-color: transparent; /* Rimuove lo sfondo nero */
+            color: #fff;
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: color 0.3s ease;
+            margin-top: 10px;
+            font-size: 20px; /* Ingrandisce il titolo */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion:hover {
+            color: #FFDB58; /* Cambia colore al passaggio del mouse */
+        }
+        .panel {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            margin-bottom: 10px;
+        }
+        .panel.open {
+            max-height: 500px; /* Altezza massima per il contenuto */
+        }
+        .arrow {
+            font-size: 28px; /* Freccia leggermente più grande */
+            transition: transform 0.3s ease;
+        }
+        .arrow.down {
+            transform: rotate(0deg); /* Freccia verso il basso */
+        }
+        .arrow.up {
+            transform: rotate(180deg); /* Freccia verso l'alto */
+        }
     </style>
 </head>
 <body>
-    <div class="overlay"></div> <!-- Aggiungi questo overlay -->
+    <div class="overlay"></div>
     <div class="navbar">
         <div class="dropdown">
             <button>☰</button>
@@ -138,16 +179,69 @@
     <div class="container">
         <h1>Titolo descrizione</h1>
         <img src="palle 2.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
-        <p>Descrizione dettagliata dell'immagine 2.</p>
-        <a href="rawdata2.zip" class="download-link" style="color: #DE3163;">Download RAW Data</a>
+
+        <!-- Sezione a tendina per i dettagli degli scatti -->
+        <button class="accordion">
+            Dettagli degli scatti
+            <span class="arrow down">▼</span> <!-- Freccia a V -->
+        </button>
+        <div class="panel">
+            <p>L: 126x420s</p>
+            <p>R: 69x420s</p>
+            <p>G: 69x420s</p>
+            <p>B: 69x420s</p>
+            <p>Ha: 1x5s</p>
+            <p>OIII: 5 sceicchi</p>
+            <p>SII: 1x5s</p>
+            <p>Data: 11 Settembre 2001</p>
+            <p>Luogo: Manfredonia</p>
+            <p>Strumenti utilizzati: Chi si fa i cazzi suoi campa 100anni</p>
+        </div>
+
+        <!-- Sezione a tendina per la descrizione dell'immagine -->
+        <button class="accordion open">
+            Descrizione dell'immagine
+        </button>
+        <div class="panel open">
+            <p>Questa immagine mostra la galassia degli stronzi</p>
+            <p>Un aneddoto interessante: franco126</p>
+        </div>
+
+        <a href="rawdata1.zip" class="download-link">Download RAW Data</a>
         <p><a href="index.html" style="color: #FFDB58;">Back to Gallery</a></p>
     </div>
+
     <div id="fullscreen" class="fullscreen" onclick="closeFullscreen()">
         <span class="close">&times;</span>
         <img src="palle 2.png" alt="Astro Image 1">
     </div>
 
     <script>
+        // Funzione per aprire/chiudere le sezioni a tendina
+        const accordions = document.querySelectorAll('.accordion');
+        accordions.forEach(accordion => {
+            accordion.addEventListener('click', function() {
+                this.classList.toggle('open');
+                const panel = this.nextElementSibling;
+                const arrow = this.querySelector('.arrow');
+
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                    if (arrow) {
+                        arrow.classList.remove('up');
+                        arrow.classList.add('down');
+                    }
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                    if (arrow) {
+                        arrow.classList.remove('down');
+                        arrow.classList.add('up');
+                    }
+                }
+            });
+        });
+
+        // Funzione per la modalità fullscreen
         function openFullscreen() {
             document.getElementById('fullscreen').classList.add('active');
         }
