@@ -152,16 +152,14 @@
             max-height: 500px; /* Altezza massima per il contenuto */
         }
         .arrow {
-            font-size: 24px;
+            font-size: 28px; /* Freccia leggermente più grande */
             transition: transform 0.3s ease;
         }
-        .arrow.down::after {
-            content: '>';
-            transform: rotate(90deg); /* Freccia a V verso il basso */
+        .arrow.down {
+            transform: rotate(0deg); /* Freccia verso il basso */
         }
-        .arrow.up::after {
-            content: '>';
-            transform: rotate(-90deg); /* Freccia a V verso l'alto */
+        .arrow.up {
+            transform: rotate(180deg); /* Freccia verso l'alto */
         }
     </style>
 </head>
@@ -185,7 +183,7 @@
         <!-- Sezione a tendina per i dettagli degli scatti -->
         <button class="accordion">
             Dettagli degli scatti
-            <span class="arrow down"></span> <!-- Freccia a V -->
+            <span class="arrow down">▼</span> <!-- Freccia a V -->
         </button>
         <div class="panel">
             <p>Numero di scatti: 50</p>
