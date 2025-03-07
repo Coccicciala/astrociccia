@@ -163,6 +163,13 @@
         .arrow.up {
             transform: rotate(180deg);
         }
+        .download-link {
+            display: block;
+            margin-top: 20px;
+            color: #DE3163; /* Rosso ciliegia */
+            text-decoration: none;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -278,7 +285,7 @@
             const mouseX = event.clientX - rect.left;
             const mouseY = event.clientY - rect.top;
 
-            // Aggiorna la posizione per mantenere il punto sotto il cursore fisso
+            // Calcola la nuova posizione per mantenere il punto sotto il cursore fisso
             posX = mouseX - (mouseX - posX) * delta;
             posY = mouseY - (mouseY - posY) * delta;
 
