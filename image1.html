@@ -55,20 +55,19 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-        }
-        .fullscreen img {
-            max-width: 90%;
-            max-height: 90%;
+            overflow: hidden;
         }
         .fullscreen.active {
             display: flex;
         }
-        .download-link {
-            display: block;
-            margin-top: 20px;
-            color: #DE3163;
-            text-decoration: none;
-            font-size: 18px;
+        .fullscreen img {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: grab;
+            transition: transform 0.25s ease;
+        }
+        .fullscreen img:active {
+            cursor: grabbing;
         }
         .close {
             position: absolute;
@@ -77,6 +76,7 @@
             font-size: 30px;
             color: #fff;
             cursor: pointer;
+            z-index: 1001;
         }
         .navbar {
             background: rgba(0, 0, 0, 0.8);
@@ -120,10 +120,8 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
-        /* Stili per le sezioni a tendina */
         .accordion {
-            background-color: transparent; /* Rimuove lo sfondo nero */
+            background-color: transparent;
             color: #fff;
             cursor: pointer;
             padding: 15px;
@@ -133,13 +131,13 @@
             outline: none;
             transition: color 0.3s ease;
             margin-top: 10px;
-            font-size: 20px; /* Ingrandisce il titolo */
+            font-size: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .accordion:hover {
-            color: #FFDB58; /* Cambia colore al passaggio del mouse */
+            color: #FFDB58;
         }
         .panel {
             padding: 0 15px;
@@ -149,17 +147,17 @@
             margin-bottom: 10px;
         }
         .panel.open {
-            max-height: 500px; /* Altezza massima per il contenuto */
+            max-height: 500px;
         }
         .arrow {
-            font-size: 28px; /* Freccia leggermente più grande */
+            font-size: 28px;
             transition: transform 0.3s ease;
         }
         .arrow.down {
-            transform: rotate(0deg); /* Freccia verso il basso */
+            transform: rotate(0deg);
         }
         .arrow.up {
-            transform: rotate(180deg); /* Freccia verso l'alto */
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -180,10 +178,9 @@
         <h1>Titolo descrizione</h1>
         <img src="LunaProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
-        <!-- Sezione a tendina per i dettagli degli scatti -->
         <button class="accordion">
             Dettagli degli scatti
-            <span class="arrow down">▼</span> <!-- Freccia a V -->
+            <span class="arrow down">▼</span>
         </button>
         <div class="panel">
             <p>L: 126x420s</p>
@@ -198,7 +195,6 @@
             <p>Strumenti utilizzati: Chi si fa i cazzi suoi campa 100anni</p>
         </div>
 
-        <!-- Sezione a tendina per la descrizione dell'immagine -->
         <button class="accordion open">
             Descrizione dell'immagine
         </button>
@@ -213,7 +209,7 @@
 
     <div id="fullscreen" class="fullscreen" onclick="closeFullscreen()">
         <span class="close">&times;</span>
-        <img src="LunaProva.png" alt="Astro Image 1">
+        <img src="LunaProva.png" alt="Astro Image 1" id="fullscreen-img">
     </div>
 
     <script>
@@ -248,6 +244,53 @@
         function closeFullscreen() {
             document.getElementById('fullscreen').classList.remove('active');
         }
+
+        // Funzionalità di zoom e pan
+        let scale = 1;
+        let posX = 0;
+        let posY = 0;
+
+        document.getElementById('fullscreen-img').addEventListener('wheel', function(event) {
+            event.preventDefault();
+            const delta = event.deltaY < 0 ? 1.1 : 0.9;
+            scale *= delta;
+
+            const rect = this.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            posX = mouseX - (mouseX - posX) * delta;
+            posY = mouseY - (mouseY - posY) * delta;
+
+            this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+        });
+
+        let isDragging = false;
+        let startX, startY;
+
+        document.getElementById('fullscreen-img').addEventListener('mousedown', function(event) {
+            if (scale > 1) {
+                isDragging = true;
+                startX = event.pageX - posX;
+                startY = event.pageY - posY;
+            }
+        });
+
+        document.getElementById('fullscreen-img').addEventListener('mousemove', function(event) {
+            if (!isDragging) return;
+            event.preventDefault();
+            posX = event.pageX - startX;
+            posY = event.pageY - startY;
+            this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+        });
+
+        document.getElementById('fullscreen-img').addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+
+        document.getElementById('fullscreen-img').addEventListener('mouseleave', function() {
+            isDragging = false;
+        });
     </script>
 </body>
 </html>
