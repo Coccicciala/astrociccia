@@ -14,17 +14,27 @@
             margin: 0;
             padding: 0;
         }
+        .overlay {
+            background: rgba(0, 0, 0, 0.6);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
         .navbar {
             background: rgba(0, 0, 0, 0.8);
             padding: 10px;
             position: fixed;
-            top: 0;
-            width: 100%;
-            text-align: center;
+            top: 10px;
+            right: 10px;
+            border-radius: 5px;
+            z-index: 10;
         }
         .dropdown {
-            display: inline-block;
             position: relative;
+            display: inline-block;
         }
         .dropdown button {
             background: none;
@@ -36,10 +46,12 @@
         .dropdown-content {
             display: none;
             position: absolute;
+            right: 0;
             background: rgba(0, 0, 0, 0.9);
             min-width: 160px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
             z-index: 1;
+            border-radius: 5px;
         }
         .dropdown-content a {
             color: #fff;
@@ -53,12 +65,19 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 50px auto;
+            max-width: 90%;
+        }
         .gallery {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 20px;
-            padding: 80px 20px 20px;
+            padding: 20px;
         }
         .gallery-item {
             text-align: center;
@@ -86,36 +105,39 @@
     </style>
 </head>
 <body>
+    <div class="overlay"></div>
     <div class="navbar">
         <div class="dropdown">
-            <button>MenUUU</button> 
+            <button>☰</button>
             <div class="dropdown-content">
-                <a href="index.html">Titolino tendina galleria</a>
-                <a href="equipment.html">Titolino tendina equi</a>
-                <a href="contact.html">Titolino tendina contacts</a>
+                <a href="index.html">Gallery</a>
+                <a href="equipment.html">My Equipment</a>
+                <a href="contact.html">Contact</a>
             </div>
         </div>
     </div>
     
-    <h1>TITOLO PAGINE PRINCIPALE</h1>
-    <div class="gallery">
-        <div class="gallery-item">
-            <a href="image1.html">
-                <img src="palle 1.png" alt="Astro Image 1">
-            </a>
-            <div class="description">Titolo foto 1</div>
-        </div>
-        <div class="gallery-item">
-            <a href="image2.html">
-                <img src="palle 2.png" alt="Astro Image 2">
-            </a>
-            <div class="description">Titolo foto 2</div>
-        </div>
-        <div class="gallery-item">
-            <a href="image3.html">
-                <img src="palle 3.png" alt="Astro Image 3">
-            </a>
-            <div class="description">Titolo foto 3</div>
+    <div class="container">
+        <h1>TITOLO PAGINE PRINCIPALE</h1>
+        <div class="gallery">
+            <div class="gallery-item">
+                <a href="image1.html">
+                    <img src="palle 1.png" alt="Astro Image 1">
+                </a>
+                <div class="description">Titolo foto 1</div>
+            </div>
+            <div class="gallery-item">
+                <a href="image2.html">
+                    <img src="palle 2.png" alt="Astro Image 2">
+                </a>
+                <div class="description">Titolo foto 2</div>
+            </div>
+            <div class="gallery-item">
+                <a href="image3.html">
+                    <img src="palle 3.png" alt="Astro Image 3">
+                </a>
+                <div class="description">Titolo foto 3</div>
+            </div>
         </div>
     </div>
 </body>
