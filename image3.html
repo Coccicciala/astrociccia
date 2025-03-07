@@ -24,17 +24,17 @@
             z-index: -1; /* Posiziona l'overlay dietro al contenuto */
         }
         .container {
-            max-width: 1000px; <!-- LARGHEZZA SLOT NERO -->
-            margin: auto;
+            max-width: 1000px; /* Larghezza del contenitore */
+            margin: 0 auto; /* Centra il contenitore */
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7); /* Sfondo nero semitrasparente per il contenuto */
+            background: rgba(0, 0, 0, 0.7); /* Sfondo nero semitrasparente */
             border-radius: 10px;
-            position: relative; /* Assicura che il contenuto sia sopra l'overlay */
-            z-index: 1; /* Posiziona il contenuto sopra l'overlay */
+            position: relative;
+            z-index: 1;
         }
         .astro-image {
             width: 100%;
-            max-width: 800px; <!-- LARGHEZZA IMMAGINE -->
+            max-width: 800px; /* Larghezza massima dell'immagine */
             height: auto;
             border: 2px solid #fff;
             border-radius: 10px;
@@ -78,8 +78,8 @@
             color: #fff;
             cursor: pointer;
         }
-        .navbar {               <!-- INIZIO MENU TENDINA -->
-            background: rgba(0, 0, 0, 0.8);  
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
             padding: 10px;
             position: fixed;
             top: 10px;
@@ -119,7 +119,7 @@
         }
         .dropdown:hover .dropdown-content {
             display: block;
-        }                                        <!-- FINE MENU TENDINA -->
+        }
     </style>
 </head>
 <body>
