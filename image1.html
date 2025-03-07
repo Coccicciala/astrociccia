@@ -155,11 +155,13 @@
             font-size: 24px;
             transition: transform 0.3s ease;
         }
-        .arrow.down {
-            transform: rotate(0deg);
+        .arrow.down::after {
+            content: '>';
+            transform: rotate(90deg); /* Freccia a V verso il basso */
         }
-        .arrow.up {
-            transform: rotate(180deg);
+        .arrow.up::after {
+            content: '>';
+            transform: rotate(-90deg); /* Freccia a V verso l'alto */
         }
     </style>
 </head>
@@ -183,7 +185,7 @@
         <!-- Sezione a tendina per i dettagli degli scatti -->
         <button class="accordion">
             Dettagli degli scatti
-            <span class="arrow down">▼</span> <!-- Freccia verso il basso -->
+            <span class="arrow down"></span> <!-- Freccia a V -->
         </button>
         <div class="panel">
             <p>Numero di scatti: 50</p>
@@ -195,7 +197,6 @@
         <!-- Sezione a tendina per la descrizione dell'immagine -->
         <button class="accordion open">
             Descrizione dell'immagine
-            <span class="arrow up">▼</span> <!-- Freccia verso l'alto -->
         </button>
         <div class="panel open">
             <p>Questa immagine mostra la galassia XYZ, situata a circa 10 milioni di anni luce dalla Terra. È stata catturata durante una notte particolarmente limpida, e si possono notare dettagli incredibili come...</p>
@@ -222,12 +223,16 @@
 
                 if (panel.style.maxHeight) {
                     panel.style.maxHeight = null;
-                    arrow.classList.remove('up');
-                    arrow.classList.add('down');
+                    if (arrow) {
+                        arrow.classList.remove('up');
+                        arrow.classList.add('down');
+                    }
                 } else {
                     panel.style.maxHeight = panel.scrollHeight + "px";
-                    arrow.classList.remove('down');
-                    arrow.classList.add('up');
+                    if (arrow) {
+                        arrow.classList.remove('down');
+                        arrow.classList.add('up');
+                    }
                 }
             });
         });
