@@ -6,7 +6,7 @@
     <title>Titolino scheda</title>
     <style>
         body {
-            background: url('SFONDO.png') no-repeat center center fixed;
+            background: url('palle 1.png') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
             font-family: Arial, sans-serif;
@@ -14,12 +14,23 @@
             margin: 0;
             padding: 0;
         }
+        .overlay {
+            background: rgba(0, 0, 0, 0.6); /* Sfondo nero semitrasparente */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Posiziona l'overlay dietro al contenuto */
+        }
         .container {
             max-width: 800px;
             margin: auto;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.7); /* Sfondo nero semitrasparente per il contenuto */
             border-radius: 10px;
+            position: relative; /* Assicura che il contenuto sia sopra l'overlay */
+            z-index: 1; /* Posiziona il contenuto sopra l'overlay */
         }
         .astro-image {
             width: 100%;
@@ -112,7 +123,7 @@
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
+    <div class="overlay"></div> <!-- Aggiungi questo overlay -->
     <div class="navbar">
         <div class="dropdown">
             <button>☰</button>
