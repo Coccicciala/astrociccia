@@ -123,7 +123,7 @@
 
         /* Stili per le sezioni a tendina */
         .accordion {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: transparent; /* Rimuove lo sfondo nero */
             color: #fff;
             cursor: pointer;
             padding: 15px;
@@ -131,24 +131,35 @@
             text-align: left;
             border: none;
             outline: none;
-            transition: background-color 0.3s ease;
+            transition: color 0.3s ease;
             margin-top: 10px;
-            border-radius: 5px;
+            font-size: 20px; /* Ingrandisce il titolo */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .accordion:hover {
-            background-color: rgba(0, 0, 0, 0.9);
+            color: #FFDB58; /* Cambia colore al passaggio del mouse */
         }
         .panel {
             padding: 0 15px;
-            background-color: rgba(0, 0, 0, 0.7);
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
-            border-radius: 5px;
             margin-bottom: 10px;
         }
         .panel.open {
             max-height: 500px; /* Altezza massima per il contenuto */
+        }
+        .arrow {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        .arrow.down {
+            transform: rotate(0deg);
+        }
+        .arrow.up {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -170,7 +181,10 @@
         <img src="palle 1.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
         <!-- Sezione a tendina per i dettagli degli scatti -->
-        <button class="accordion">Dettagli degli scatti</button>
+        <button class="accordion">
+            Dettagli degli scatti
+            <span class="arrow down">▼</span> <!-- Freccia verso il basso -->
+        </button>
         <div class="panel">
             <p>Numero di scatti: 50</p>
             <p>Tempo di esposizione: 30 secondi per scatto</p>
@@ -179,7 +193,10 @@
         </div>
 
         <!-- Sezione a tendina per la descrizione dell'immagine -->
-        <button class="accordion open">Descrizione dell'immagine</button>
+        <button class="accordion open">
+            Descrizione dell'immagine
+            <span class="arrow up">▼</span> <!-- Freccia verso l'alto -->
+        </button>
         <div class="panel open">
             <p>Questa immagine mostra la galassia XYZ, situata a circa 10 milioni di anni luce dalla Terra. È stata catturata durante una notte particolarmente limpida, e si possono notare dettagli incredibili come...</p>
             <p>Un aneddoto interessante: questa galassia è stata scoperta nel 1800 da un astronomo italiano, ed è stata una delle prime galassie ad essere fotografata.</p>
@@ -201,10 +218,16 @@
             accordion.addEventListener('click', function() {
                 this.classList.toggle('open');
                 const panel = this.nextElementSibling;
+                const arrow = this.querySelector('.arrow');
+
                 if (panel.style.maxHeight) {
                     panel.style.maxHeight = null;
+                    arrow.classList.remove('up');
+                    arrow.classList.add('down');
                 } else {
                     panel.style.maxHeight = panel.scrollHeight + "px";
+                    arrow.classList.remove('down');
+                    arrow.classList.add('up');
                 }
             });
         });
