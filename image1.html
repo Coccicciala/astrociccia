@@ -248,15 +248,7 @@
             });
         });
 
-        // Funzione per la modalità fullscreen
-        function openFullscreen() {
-            document.getElementById('fullscreen').classList.add('active');
-        }
-        function closeFullscreen() {
-            document.getElementById('fullscreen').classList.remove('active');
-        }
-
-        // Funzionalità di zoom e pan
+        // Variabili per salvare lo stato dell'immagine
         let scale = 1;
         let posX = 0;
         let posY = 0;
@@ -264,6 +256,18 @@
         let startX, startY;
 
         const fullscreenImg = document.getElementById('fullscreen-img');
+
+        // Funzione per aprire la modalità fullscreen
+        function openFullscreen() {
+            document.getElementById('fullscreen').classList.add('active');
+            // Ripristina lo stato dell'immagine salvato
+            fullscreenImg.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+        }
+
+        // Funzione per chiudere la modalità fullscreen
+        function closeFullscreen() {
+            document.getElementById('fullscreen').classList.remove('active');
+        }
 
         // Zoom con la rotellina del mouse
         fullscreenImg.addEventListener('wheel', function(event) {
