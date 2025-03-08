@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titolino scheda</title>
     <style>
-        /* Stili esistenti (rimangono invariati) */
+        /* STILI E COLORI */
         body {
             background: url('VortexProva.png') no-repeat center center fixed;
             background-size: cover;
@@ -208,7 +208,7 @@
     </div>
     
     <div class="container">
-        <h1>Titolo descrizione</h1>
+        <h1>TITOLO FOTO</h1>
         <img src="VortexProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
         <button class="accordion">
@@ -329,7 +329,7 @@
                 arrowLeft.classList.remove('hidden');
             }
 
-            // Nascondi la freccia destra se siamo all'ultima pagina
+            // NASCONDI LA FRECCIA DESTRA SE SIAMO ALL'ULTIMA PAGINA
             const totalPages = 4; // Modifica questo valore in base al numero totale di pagine
             if (pageNumber === totalPages) {
                 arrowRight.classList.add('hidden');
@@ -349,9 +349,13 @@
             const delta = event.deltaY < 0 ? 1.1 : 0.9;
             const newScale = scale * delta;
 
-            // Limita lo zoom in (imposta un limite minimo)
-            const minScale = 0.1; // Limite minimo per evitare zoom eccessivo
+            // LIMITA LO ZOOM OUT (imposta un limite minimo)
+            const minScale = 0.33; // Limite minimo per evitare zoom eccessivo
             if (newScale < minScale) return;
+
+            // LIMITA LO ZOOM IN (imposta un limite minimo)
+            const maxScale = 20.0; // Limite massimo per evitare zoom eccessivo
+            if (newScale > maxScale) return;
 
             // Calcola la posizione del cursore rispetto all'immagine
             const rect = canvas.getBoundingClientRect();
