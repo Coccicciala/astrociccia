@@ -55,20 +55,18 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-        }
-        .fullscreen img {
-            max-width: 90%;
-            max-height: 90%;
+            overflow: hidden;
         }
         .fullscreen.active {
             display: flex;
         }
-        .download-link {
-            display: block;
-            margin-top: 20px;
-            color: #DE3163;
-            text-decoration: none;
-            font-size: 18px;
+        .fullscreen canvas {
+            cursor: grab;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .fullscreen canvas:active {
+            cursor: grabbing;
         }
         .close {
             position: absolute;
@@ -77,6 +75,7 @@
             font-size: 30px;
             color: #fff;
             cursor: pointer;
+            z-index: 1001;
         }
         .navbar {
             background: rgba(0, 0, 0, 0.8);
@@ -120,10 +119,8 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
-        /* Stili per le sezioni a tendina */
         .accordion {
-            background-color: transparent; /* Rimuove lo sfondo nero */
+            background-color: transparent;
             color: #fff;
             cursor: pointer;
             padding: 15px;
@@ -133,13 +130,13 @@
             outline: none;
             transition: color 0.3s ease;
             margin-top: 10px;
-            font-size: 20px; /* Ingrandisce il titolo */
+            font-size: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .accordion:hover {
-            color: #FFDB58; /* Cambia colore al passaggio del mouse */
+            color: #FFDB58;
         }
         .panel {
             padding: 0 15px;
@@ -149,17 +146,24 @@
             margin-bottom: 10px;
         }
         .panel.open {
-            max-height: 500px; /* Altezza massima per il contenuto */
+            max-height: 500px;
         }
         .arrow {
-            font-size: 28px; /* Freccia leggermente più grande */
+            font-size: 28px;
             transition: transform 0.3s ease;
         }
         .arrow.down {
-            transform: rotate(0deg); /* Freccia verso il basso */
+            transform: rotate(0deg);
         }
         .arrow.up {
-            transform: rotate(180deg); /* Freccia verso l'alto */
+            transform: rotate(180deg);
+        }
+        .download-link {
+            display: block;
+            margin-top: 20px;
+            color: #DE3163; /* Rosso ciliegia */
+            text-decoration: none;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -180,10 +184,9 @@
         <h1>Titolo descrizione</h1>
         <img src="VortexProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
-        <!-- Sezione a tendina per i dettagli degli scatti -->
         <button class="accordion">
             Dettagli degli scatti
-            <span class="arrow down">▼</span> <!-- Freccia a V -->
+            <span class="arrow down">▼</span>
         </button>
         <div class="panel">
             <p>L: 126x420s</p>
@@ -198,7 +201,6 @@
             <p>Strumenti utilizzati: Chi si fa i cazzi suoi campa 100anni</p>
         </div>
 
-        <!-- Sezione a tendina per la descrizione dell'immagine -->
         <button class="accordion open">
             Descrizione dell'immagine
         </button>
@@ -207,13 +209,13 @@
             <p>Un aneddoto interessante: franco126</p>
         </div>
 
-        <a href="rawdata4.zip" class="download-link">Download RAW Data</a>
+        <a href="rawdata1.zip" class="download-link">Download RAW Data</a>
         <p><a href="index.html" style="color: #FFDB58;">Back to Gallery</a></p>
     </div>
 
-    <div id="fullscreen" class="fullscreen" onclick="closeFullscreen()">
-        <span class="close">&times;</span>
-        <img src="VortexProva.png" alt="Astro Image 1">
+    <div id="fullscreen" class="fullscreen">
+        <span class="close" onclick="closeFullscreen()">&times;</span>
+        <canvas id="fullscreen-canvas"></canvas>
     </div>
 
     <script>
@@ -241,13 +243,140 @@
             });
         });
 
-        // Funzione per la modalità fullscreen
+        // Variabili per lo zoom e il trascinamento
+        const canvas = document.getElementById('fullscreen-canvas');
+        const ctx = canvas.getContext('2d');
+        let scale = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        // Immagine di prova
+        const img = new Image();
+        img.src = 'VortexProva.png';
+        img.onload = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            draw();
+        };
+
+        // Funzione per disegnare l'immagine
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(scale, scale);
+            ctx.drawImage(img, 0, 0);
+            ctx.restore();
+        }
+
+        // Funzione per limitare il trascinamento ai bordi (bordi molto larghi)
+        function limitPan() {
+            const imgWidth = img.width * scale;
+            const imgHeight = img.height * scale;
+
+            // Imposta bordi molto larghi (50% in più delle dimensioni dell'immagine)
+            const maxX = (imgWidth - canvas.width) * 1.5;
+            const maxY = (imgHeight - canvas.height) * 1.5;
+
+            // Limita l'offsetX e offsetY ai bordi
+            offsetX = Math.min(Math.max(offsetX, -maxX), maxX);
+            offsetY = Math.min(Math.max(offsetY, -maxY), maxY);
+        }
+
+        // Zoom con la rotellina del mouse
+        canvas.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            // Calcola il fattore di zoom
+            const delta = event.deltaY < 0 ? 1.1 : 0.9;
+            const newScale = scale * delta;
+
+            // Limita lo zoom minimo (1 = dimensione originale)
+            if (newScale < 1) {
+                scale = 1;
+                offsetX = 0;
+                offsetY = 0;
+            } else {
+                // Limita lo zoom massimo
+                if (newScale > 5) return;
+
+                // Calcola la posizione del cursore rispetto all'immagine
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+
+                // Aggiorna l'offset per mantenere il punto sotto il cursore fisso
+                offsetX = mouseX - (mouseX - offsetX) * delta;
+                offsetY = mouseY - (mouseY - offsetY) * delta;
+
+                // Applica il nuovo zoom
+                scale = newScale;
+            }
+
+            // Limita il trascinamento ai bordi
+            limitPan();
+
+            // Ridisegna l'immagine
+            draw();
+        });
+
+        // Trascinamento (pan) dell'immagine
+        canvas.addEventListener('mousedown', (event) => {
+            if (scale > 1) {
+                isDragging = true;
+                startX = event.clientX - offsetX;
+                startY = event.clientY - offsetY;
+            }
+        });
+
+        canvas.addEventListener('mousemove', (event) => {
+            if (!isDragging) return;
+            event.preventDefault();
+
+            // Calcola la nuova posizione dell'immagine
+            offsetX = event.clientX - startX;
+            offsetY = event.clientY - startY;
+
+            // Limita il trascinamento ai bordi
+            limitPan();
+
+            // Ridisegna l'immagine
+            draw();
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        // Funzione per aprire la modalità fullscreen
         function openFullscreen() {
+            scale = 1;
+            offsetX = 0;
+            offsetY = 0;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            draw();
             document.getElementById('fullscreen').classList.add('active');
         }
+
+        // Funzione per chiudere la modalità fullscreen
         function closeFullscreen() {
             document.getElementById('fullscreen').classList.remove('active');
         }
+
+        // Ridimensiona il canvas quando la finestra cambia dimensione
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            limitPan();
+            draw();
+        });
     </script>
 </body>
 </html>
