@@ -355,7 +355,7 @@
 
             // Limita lo zoom in (imposta un limite minimo)
             const maxScale = 3.0; // Limite massimo per evitare zoom eccessivo
-            if (newScale < maxScale) return;
+            if (newScale > maxScale) return;
 
             // Calcola la posizione del cursore rispetto all'immagine
             const rect = canvas.getBoundingClientRect();
