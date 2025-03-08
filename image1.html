@@ -271,6 +271,18 @@
             ctx.restore();
         }
 
+        // Funzione per limitare il trascinamento ai bordi
+        function limitPan() {
+            const imgWidth = img.width * scale;
+            const imgHeight = img.height * scale;
+            const maxX = (imgWidth - canvas.width) / 2;
+            const maxY = (imgHeight - canvas.height) / 2;
+
+            // Limita l'offsetX e offsetY ai bordi
+            offsetX = Math.min(Math.max(offsetX, -maxX), maxX);
+            offsetY = Math.min(Math.max(offsetY, -maxY), maxY);
+        }
+
         // Zoom con la rotellina del mouse
         canvas.addEventListener('wheel', (event) => {
             event.preventDefault();
@@ -294,6 +306,9 @@
             // Applica il nuovo zoom
             scale = newScale;
 
+            // Limita il trascinamento ai bordi
+            limitPan();
+
             // Ridisegna l'immagine
             draw();
         });
@@ -312,6 +327,9 @@
             // Calcola la nuova posizione dell'immagine
             offsetX = event.clientX - startX;
             offsetY = event.clientY - startY;
+
+            // Limita il trascinamento ai bordi
+            limitPan();
 
             // Ridisegna l'immagine
             draw();
