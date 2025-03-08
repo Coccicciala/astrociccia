@@ -64,10 +64,10 @@
             max-width: 100%;
             max-height: 100%;
             cursor: grab;
-            transition: transform 0.25s ease;
-            user-select: none; /* Impedisce la selezione del testo solo in modalità fullscreen */
-            -webkit-user-drag: none; /* Disabilita il trascinamento predefinito */
-            pointer-events: all; /* Abilita gli eventi del mouse */
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: all;
+            transition: transform 0.1s ease;
         }
         .fullscreen img:active {
             cursor: grabbing;
@@ -262,10 +262,7 @@
             scale = 1;
             posX = 0;
             posY = 0;
-            fullscreenImg.style.width = `${100 * scale}%`;
-            fullscreenImg.style.height = `${100 * scale}%`;
-            fullscreenImg.style.left = `${posX}px`;
-            fullscreenImg.style.top = `${posY}px`;
+            fullscreenImg.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
 
             // Apri la modalità fullscreen
             document.getElementById('fullscreen').classList.add('active');
@@ -310,10 +307,7 @@
             posY = Math.min(Math.max(posY, -maxY), maxY);
 
             // Applica la trasformazione
-            fullscreenImg.style.width = `${100 * scale}%`;
-            fullscreenImg.style.height = `${100 * scale}%`;
-            fullscreenImg.style.left = `${posX}px`;
-            fullscreenImg.style.top = `${posY}px`;
+            this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
         });
 
         // Trascinamento (pan) dell'immagine
@@ -343,8 +337,7 @@
             posY = Math.min(Math.max(posY, -maxY), maxY);
 
             // Applica la trasformazione
-            fullscreenImg.style.left = `${posX}px`;
-            fullscreenImg.style.top = `${posY}px`;
+            this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
         });
 
         fullscreenImg.addEventListener('mouseup', function() {
