@@ -276,9 +276,9 @@
             const imgWidth = img.width * scale;
             const imgHeight = img.height * scale;
 
-            // Imposta bordi molto larghi (50% in più delle dimensioni dell'immagine)
-            const maxX = (imgWidth - canvas.width) * 1.5;
-            const maxY = (imgHeight - canvas.height) * 1.5;
+            // Imposta bordi molto larghi (2.5 volte in più delle dimensioni dell'immagine)
+            const maxX = (imgWidth - canvas.width) * 2.5;
+            const maxY = (imgHeight - canvas.height) * 2.5;
 
             // Limita l'offsetX e offsetY ai bordi
             offsetX = Math.min(Math.max(offsetX, -maxX), maxX);
