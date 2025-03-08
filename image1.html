@@ -286,17 +286,17 @@
                 posX = 0;
                 posY = 0;
             } else {
+                // Calcola la posizione del cursore rispetto all'immagine
+                const rect = this.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+
+                // Calcola la nuova posizione per mantenere il punto sotto il cursore fisso
+                posX = mouseX - (mouseX - posX) * delta;
+                posY = mouseY - (mouseY - posY) * delta;
+
                 scale = newScale;
             }
-
-            // Calcola la posizione del cursore rispetto all'immagine
-            const rect = this.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
-
-            // Aggiorna le coordinate di trasformazione per mantenere il punto sotto il cursore fisso
-            posX = (mouseX - posX * scale) * (1 - delta);
-            posY = (mouseY - posY * scale) * (1 - delta);
 
             // Applica la trasformazione
             this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
