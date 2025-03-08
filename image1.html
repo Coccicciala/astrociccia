@@ -248,7 +248,7 @@
             });
         });
 
-        // Variabili per salvare lo stato dell'immagine
+        // Variabili per lo zoom e il trascinamento
         let scale = 1;
         let posX = 0;
         let posY = 0;
@@ -259,9 +259,14 @@
 
         // Funzione per aprire la modalità fullscreen
         function openFullscreen() {
-            document.getElementById('fullscreen').classList.add('active');
-            // Ripristina lo stato dell'immagine salvato
+            // Resetta lo stato dell'immagine
+            scale = 1;
+            posX = 0;
+            posY = 0;
             fullscreenImg.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+
+            // Apri la modalità fullscreen
+            document.getElementById('fullscreen').classList.add('active');
         }
 
         // Funzione per chiudere la modalità fullscreen
