@@ -298,6 +298,15 @@
                 scale = newScale;
             }
 
+            // Limita le coordinate per evitare che l'immagine si sposti all'esterno dei confini
+            const imgWidth = fullscreenImg.offsetWidth * scale;
+            const imgHeight = fullscreenImg.offsetHeight * scale;
+            const maxX = (imgWidth - window.innerWidth) / 2;
+            const maxY = (imgHeight - window.innerHeight) / 2;
+
+            posX = Math.min(Math.max(posX, -maxX), maxX);
+            posY = Math.min(Math.max(posY, -maxY), maxY);
+
             // Applica la trasformazione
             this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
         });
@@ -318,6 +327,15 @@
             // Calcola la nuova posizione dell'immagine
             posX = event.clientX - startX;
             posY = event.clientY - startY;
+
+            // Limita le coordinate per evitare che l'immagine si sposti all'esterno dei confini
+            const imgWidth = fullscreenImg.offsetWidth * scale;
+            const imgHeight = fullscreenImg.offsetHeight * scale;
+            const maxX = (imgWidth - window.innerWidth) / 2;
+            const maxY = (imgHeight - window.innerHeight) / 2;
+
+            posX = Math.min(Math.max(posX, -maxX), maxX);
+            posY = Math.min(Math.max(posY, -maxY), maxY);
 
             // Applica la trasformazione
             this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
