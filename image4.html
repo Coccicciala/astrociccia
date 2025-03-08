@@ -176,19 +176,21 @@
             color: #fff;
             cursor: pointer;
             z-index: 1001;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 50%;
             user-select: none;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
         }
         .nav-arrow:hover {
-            background: rgba(0, 0, 0, 0.8);
+            opacity: 1;
         }
         .nav-arrow.left {
             left: 20px;
         }
         .nav-arrow.right {
             right: 20px;
+        }
+        .nav-arrow.hidden {
+            display: none;
         }
     </style>
 </head>
@@ -239,8 +241,8 @@
     </div>
 
     <!-- Frecce di navigazione -->
-    <div class="nav-arrow left" onclick="navigate(-1)">&#10094;</div>
-    <div class="nav-arrow right" onclick="navigate(1)">&#10095;</div>
+    <div class="nav-arrow left" id="nav-arrow-left" onclick="navigate(-1)">&#10094;</div>
+    <div class="nav-arrow right" id="nav-arrow-right" onclick="navigate(1)">&#10095;</div>
 
     <div id="fullscreen" class="fullscreen">
         <span class="close" onclick="closeFullscreen()">&times;</span>
@@ -311,6 +313,34 @@
                 window.location.href = `image${newPageNumber}.html`; // Vai alla nuova pagina
             }
         }
+
+        // Funzione per gestire la visibilità delle frecce
+        function updateNavigationArrows() {
+            const currentPage = window.location.pathname.split('/').pop(); // Ottieni il nome della pagina corrente
+            const pageNumber = parseInt(currentPage.replace('image', '').replace('.html', '')); // Estrai il numero
+
+            const arrowLeft = document.getElementById('nav-arrow-left');
+            const arrowRight = document.getElementById('nav-arrow-right');
+
+            // Nascondi la freccia sinistra se siamo alla prima pagina
+            if (pageNumber === 1) {
+                arrowLeft.classList.add('hidden');
+            } else {
+                arrowLeft.classList.remove('hidden');
+            }
+
+            // Nascondi la freccia destra se non ci sono pagine successive
+            // (Supponiamo che ci siano 3 pagine: image1.html, image2.html, image3.html)
+            const totalPages = 3; // Modifica questo valore in base al numero totale di pagine
+            if (pageNumber === totalPages) {
+                arrowRight.classList.add('hidden');
+            } else {
+                arrowRight.classList.remove('hidden');
+            }
+        }
+
+        // Aggiorna le frecce all'avvio della pagina
+        updateNavigationArrows();
 
         // Zoom con la rotellina del mouse
         canvas.addEventListener('wheel', (event) => {
