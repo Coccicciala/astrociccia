@@ -252,9 +252,9 @@
         let isDragging = false;
         let startX, startY;
 
-        // Immagine di prova (puoi sostituirla con la tua immagine)
+        // Immagine di prova
         const img = new Image();
-        img.src = 'LunaProva.png'; // Usa la stessa immagine della preview
+        img.src = 'LunaProva.png';
         img.onload = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -277,8 +277,8 @@
             const imgHeight = img.height * scale;
 
             // Calcola i limiti di trascinamento
-            const maxX = Math.max(0, (imgWidth - canvas.width) / 2);
-            const maxY = Math.max(0, (imgHeight - canvas.height) / 2);
+            const maxX = (imgWidth - canvas.width) / 2;
+            const maxY = (imgHeight - canvas.height) / 2;
 
             // Limita l'offsetX e offsetY ai bordi
             offsetX = Math.min(Math.max(offsetX, -maxX), maxX);
@@ -300,7 +300,7 @@
                 offsetY = 0;
             } else {
                 // Limita lo zoom massimo
-                if (newScale > 5) return; // Zoom massimo
+                if (newScale > 5) return;
 
                 // Calcola la posizione del cursore rispetto all'immagine
                 const rect = canvas.getBoundingClientRect();
@@ -324,9 +324,11 @@
 
         // Trascinamento (pan) dell'immagine
         canvas.addEventListener('mousedown', (event) => {
-            isDragging = true;
-            startX = event.clientX - offsetX;
-            startY = event.clientY - offsetY;
+            if (scale > 1) {
+                isDragging = true;
+                startX = event.clientX - offsetX;
+                startY = event.clientY - offsetY;
+            }
         });
 
         canvas.addEventListener('mousemove', (event) => {
@@ -354,15 +356,12 @@
 
         // Funzione per aprire la modalità fullscreen
         function openFullscreen() {
-            // Resetta lo stato dell'immagine
             scale = 1;
             offsetX = 0;
             offsetY = 0;
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             draw();
-
-            // Apri la modalità fullscreen
             document.getElementById('fullscreen').classList.add('active');
         }
 
