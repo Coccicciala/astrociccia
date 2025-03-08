@@ -251,6 +251,7 @@
         let offsetY = 0;
         let isDragging = false;
         let startX, startY;
+        const margin = 10; // Margine di 10 pixel
 
         // Immagine di prova (puoi sostituirla con la tua immagine)
         const img = new Image();
@@ -271,22 +272,22 @@
             ctx.restore();
         }
 
-        // Funzione per limitare il trascinamento e lo zoom ai bordi
+        // Funzione per limitare il trascinamento e lo zoom ai bordi con margine
         function limitPanAndZoom() {
             const imgWidth = img.width * scale;
             const imgHeight = img.height * scale;
 
-            // Calcola i limiti di trascinamento
-            const maxX = Math.max(0, (imgWidth - canvas.width) / 2);
-            const maxY = Math.max(0, (imgHeight - canvas.height) / 2);
+            // Calcola i limiti di trascinamento con margine
+            const maxX = Math.max(0, (imgWidth - canvas.width) / 2 + margin);
+            const maxY = Math.max(0, (imgHeight - canvas.height) / 2 + margin);
 
-            // Limita l'offsetX e offsetY ai bordi
+            // Limita l'offsetX e offsetY ai bordi con margine
             offsetX = Math.min(Math.max(offsetX, -maxX), maxX);
             offsetY = Math.min(Math.max(offsetY, -maxY), maxY);
 
             // Limita lo zoom per evitare che l'immagine diventi troppo piccola
-            if (imgWidth < canvas.width || imgHeight < canvas.height) {
-                scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+            if (imgWidth < canvas.width - 2 * margin || imgHeight < canvas.height - 2 * margin) {
+                scale = Math.max((canvas.width - 2 * margin) / img.width, (canvas.height - 2 * margin) / img.height);
                 offsetX = 0;
                 offsetY = 0;
             }
@@ -315,7 +316,7 @@
             // Applica il nuovo zoom
             scale = newScale;
 
-            // Limita il trascinamento e lo zoom ai bordi
+            // Limita il trascinamento e lo zoom ai bordi con margine
             limitPanAndZoom();
 
             // Ridisegna l'immagine
@@ -337,7 +338,7 @@
             offsetX = event.clientX - startX;
             offsetY = event.clientY - startY;
 
-            // Limita il trascinamento ai bordi
+            // Limita il trascinamento ai bordi con margine
             limitPanAndZoom();
 
             // Ridisegna l'immagine
