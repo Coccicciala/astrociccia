@@ -361,21 +361,26 @@
             offsetX = 0;
             offsetY = 0;
 
-            // Imposta le dimensioni del canvas in base all'immagine e alla finestra
-            const aspectRatio = img.width / img.height;
-            if (window.innerWidth / window.innerHeight > aspectRatio) {
-                // La finestra è più larga rispetto all'immagine
-                canvas.width = window.innerHeight * aspectRatio;
-                canvas.height = window.innerHeight;
+            // Calcola il rapporto d'aspetto dell'immagine e dello schermo
+            const imgAspectRatio = img.width / img.height;
+            const screenAspectRatio = window.innerWidth / window.innerHeight;
+
+            // Adatta l'immagine allo schermo
+            if (imgAspectRatio > screenAspectRatio) {
+                // L'immagine è più larga dello schermo: adatta la larghezza
+                scale = window.innerWidth / img.width;
             } else {
-                // La finestra è più alta rispetto all'immagine
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerWidth / aspectRatio;
+                // L'immagine è più alta dello schermo: adatta l'altezza
+                scale = window.innerHeight / img.height;
             }
 
+            // Imposta le dimensioni del canvas
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
             // Centra l'immagine nel canvas
-            offsetX = (window.innerWidth - canvas.width) / 2;
-            offsetY = (window.innerHeight - canvas.height) / 2;
+            offsetX = (window.innerWidth - img.width * scale) / 2;
+            offsetY = (window.innerHeight - img.height * scale) / 2;
 
             draw();
             document.getElementById('fullscreen').classList.add('active');
