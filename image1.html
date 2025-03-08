@@ -262,7 +262,10 @@
             scale = 1;
             posX = 0;
             posY = 0;
-            fullscreenImg.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+            fullscreenImg.style.width = `${100 * scale}%`;
+            fullscreenImg.style.height = `${100 * scale}%`;
+            fullscreenImg.style.left = `${posX}px`;
+            fullscreenImg.style.top = `${posY}px`;
 
             // Apri la modalità fullscreen
             document.getElementById('fullscreen').classList.add('active');
@@ -307,7 +310,10 @@
             posY = Math.min(Math.max(posY, -maxY), maxY);
 
             // Applica la trasformazione
-            this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+            fullscreenImg.style.width = `${100 * scale}%`;
+            fullscreenImg.style.height = `${100 * scale}%`;
+            fullscreenImg.style.left = `${posX}px`;
+            fullscreenImg.style.top = `${posY}px`;
         });
 
         // Trascinamento (pan) dell'immagine
@@ -337,7 +343,8 @@
             posY = Math.min(Math.max(posY, -maxY), maxY);
 
             // Applica la trasformazione
-            this.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+            fullscreenImg.style.left = `${posX}px`;
+            fullscreenImg.style.top = `${posY}px`;
         });
 
         fullscreenImg.addEventListener('mouseup', function() {
