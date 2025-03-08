@@ -166,6 +166,30 @@
             text-decoration: none;
             font-size: 18px;
         }
+
+        /* Stili per le frecce di navigazione */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            user-select: none;
+        }
+        .nav-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        .nav-arrow.left {
+            left: 20px;
+        }
+        .nav-arrow.right {
+            right: 20px;
+        }
     </style>
 </head>
 <body>
@@ -213,6 +237,10 @@
         <a href="rawdata1.zip" class="download-link">Download RAW Data</a>
         <p><a href="index.html" style="color: #FFDB58;">Back to Gallery</a></p>
     </div>
+
+    <!-- Frecce di navigazione -->
+    <div class="nav-arrow left" onclick="navigate(-1)">&#10094;</div>
+    <div class="nav-arrow right" onclick="navigate(1)">&#10095;</div>
 
     <div id="fullscreen" class="fullscreen">
         <span class="close" onclick="closeFullscreen()">&times;</span>
@@ -270,6 +298,18 @@
             ctx.scale(scale, scale);
             ctx.drawImage(img, 0, 0);
             ctx.restore();
+        }
+
+        // Funzione per navigare tra le immagini
+        function navigate(direction) {
+            const currentPage = window.location.pathname.split('/').pop(); // Ottieni il nome della pagina corrente (es. "image2.html")
+            const pageNumber = parseInt(currentPage.replace('image', '').replace('.html', '')); // Estrai il numero (es. 2)
+            const newPageNumber = pageNumber + direction; // Calcola la nuova pagina
+
+            // Verifica se la nuova pagina esiste
+            if (newPageNumber >= 1) {
+                window.location.href = `image3.html`; // Vai alla nuova pagina
+            }
         }
 
         // Zoom con la rotellina del mouse
