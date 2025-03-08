@@ -350,7 +350,7 @@
             const newScale = scale * delta;
 
             // Limita lo zoom in (imposta un limite minimo)
-            const minScale = 0.1; // Limite minimo per evitare zoom eccessivo
+            const minScale = 0.9; // Limite minimo per evitare zoom eccessivo
             if (newScale < minScale) return;
 
             // Calcola la posizione del cursore rispetto all'immagine
