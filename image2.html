@@ -55,20 +55,18 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-        }
-        .fullscreen img {
-            max-width: 90%;
-            max-height: 90%;
+            overflow: hidden;
         }
         .fullscreen.active {
             display: flex;
         }
-        .download-link {
-            display: block;
-            margin-top: 20px;
-            color: #DE3163;
-            text-decoration: none;
-            font-size: 18px;
+        .fullscreen img {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: all;
         }
         .close {
             position: absolute;
@@ -77,6 +75,7 @@
             font-size: 30px;
             color: #fff;
             cursor: pointer;
+            z-index: 1001;
         }
         .navbar {
             background: rgba(0, 0, 0, 0.8);
@@ -120,10 +119,8 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
-        /* Stili per le sezioni a tendina */
         .accordion {
-            background-color: transparent; /* Rimuove lo sfondo nero */
+            background-color: transparent;
             color: #fff;
             cursor: pointer;
             padding: 15px;
@@ -133,13 +130,13 @@
             outline: none;
             transition: color 0.3s ease;
             margin-top: 10px;
-            font-size: 20px; /* Ingrandisce il titolo */
+            font-size: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .accordion:hover {
-            color: #FFDB58; /* Cambia colore al passaggio del mouse */
+            color: #FFDB58;
         }
         .panel {
             padding: 0 15px;
@@ -149,17 +146,24 @@
             margin-bottom: 10px;
         }
         .panel.open {
-            max-height: 500px; /* Altezza massima per il contenuto */
+            max-height: 500px;
         }
         .arrow {
-            font-size: 28px; /* Freccia leggermente più grande */
+            font-size: 28px;
             transition: transform 0.3s ease;
         }
         .arrow.down {
-            transform: rotate(0deg); /* Freccia verso il basso */
+            transform: rotate(0deg);
         }
         .arrow.up {
-            transform: rotate(180deg); /* Freccia verso l'alto */
+            transform: rotate(180deg);
+        }
+        .download-link {
+            display: block;
+            margin-top: 20px;
+            color: #DE3163; /* Rosso ciliegia */
+            text-decoration: none;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -177,13 +181,12 @@
     </div>
     
     <div class="container">
-        <h1>TITOLO FOTO 2</h1>
+        <h1>Titolo descrizione</h1>
         <img src="OrionProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
-        <!-- Sezione a tendina per i dettagli degli scatti -->
         <button class="accordion">
             Dettagli degli scatti
-            <span class="arrow down">▼</span> <!-- Freccia a V -->
+            <span class="arrow down">▼</span>
         </button>
         <div class="panel">
             <p>L: 126x420s</p>
@@ -198,7 +201,6 @@
             <p>Strumenti utilizzati: Chi si fa i cazzi suoi campa 100anni</p>
         </div>
 
-        <!-- Sezione a tendina per la descrizione dell'immagine -->
         <button class="accordion open">
             Descrizione dell'immagine
         </button>
@@ -207,13 +209,13 @@
             <p>Un aneddoto interessante: franco126</p>
         </div>
 
-        <a href="rawdata2.zip" class="download-link">Download RAW Data</a>
+        <a href="rawdata1.zip" class="download-link">Download RAW Data</a>
         <p><a href="index.html" style="color: #FFDB58;">Back to Gallery</a></p>
     </div>
 
-    <div id="fullscreen" class="fullscreen" onclick="closeFullscreen()">
-        <span class="close">&times;</span>
-        <img src="OrionProva.png" alt="Astro Image 1">
+    <div id="fullscreen" class="fullscreen">
+        <span class="close" onclick="closeFullscreen()">&times;</span>
+        <img src="OrionProva.png" alt="Astro Image 1" id="fullscreen-img" draggable="false">
     </div>
 
     <script>
@@ -241,10 +243,12 @@
             });
         });
 
-        // Funzione per la modalità fullscreen
+        // Funzione per aprire la modalità fullscreen
         function openFullscreen() {
             document.getElementById('fullscreen').classList.add('active');
         }
+
+        // Funzione per chiudere la modalità fullscreen
         function closeFullscreen() {
             document.getElementById('fullscreen').classList.remove('active');
         }
