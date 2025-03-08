@@ -220,6 +220,30 @@
     </div>
 
     <script>
+        // Funzione per aprire/chiudere le sezioni a tendina
+        const accordions = document.querySelectorAll('.accordion');
+        accordions.forEach(accordion => {
+            accordion.addEventListener('click', function() {
+                this.classList.toggle('open');
+                const panel = this.nextElementSibling;
+                const arrow = this.querySelector('.arrow');
+
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                    if (arrow) {
+                        arrow.classList.remove('up');
+                        arrow.classList.add('down');
+                    }
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                    if (arrow) {
+                        arrow.classList.remove('down');
+                        arrow.classList.add('up');
+                    }
+                }
+            });
+        });
+
         // Variabili per lo zoom e il trascinamento
         const canvas = document.getElementById('fullscreen-canvas');
         const ctx = canvas.getContext('2d');
@@ -248,14 +272,14 @@
             ctx.restore();
         }
 
-        // Funzione per limitare il trascinamento ai bordi
+        // Funzione per limitare il trascinamento ai bordi (bordi astronomicamente grandi)
         function limitPan() {
             const imgWidth = img.width * scale;
             const imgHeight = img.height * scale;
 
-            // Calcola i bordi dinamici in base alle dimensioni dell'immagine e del canvas
-            const maxX = (imgWidth - canvas.width) / 2;
-            const maxY = (imgHeight - canvas.height) / 2;
+            // Imposta bordi astronomicamente grandi (10 volte le dimensioni dell'immagine)
+            const maxX = (imgWidth - canvas.width) * 10;
+            const maxY = (imgHeight - canvas.height) * 10;
 
             // Limita l'offsetX e offsetY ai bordi
             offsetX = Math.min(Math.max(offsetX, -maxX), maxX);
