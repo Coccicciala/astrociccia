@@ -329,9 +329,8 @@
                 arrowLeft.classList.remove('hidden');
             }
 
-            // Nascondi la freccia destra se non ci sono pagine successive
-            // (Supponiamo che ci siano 3 pagine: image1.html, image2.html, image3.html)
-            const totalPages = 3; // Modifica questo valore in base al numero totale di pagine
+            // Nascondi la freccia destra se siamo all'ultima pagina
+            const totalPages = 4; // Modifica questo valore in base al numero totale di pagine
             if (pageNumber === totalPages) {
                 arrowRight.classList.add('hidden');
             } else {
