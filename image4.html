@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titolino scheda</title>
     <style>
+        /* Stili esistenti (rimangono invariati) */
         body {
-            background: url('OrionProva.png') no-repeat center center fixed;
+            background: url('VortexProva.png') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
             font-family: Arial, sans-serif;
@@ -182,7 +183,7 @@
     
     <div class="container">
         <h1>Titolo descrizione</h1>
-        <img src="OrionProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
+        <img src="VortexProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
         <button class="accordion">
             Dettagli degli scatti
@@ -219,30 +220,6 @@
     </div>
 
     <script>
-        // Funzione per aprire/chiudere le sezioni a tendina
-        const accordions = document.querySelectorAll('.accordion');
-        accordions.forEach(accordion => {
-            accordion.addEventListener('click', function() {
-                this.classList.toggle('open');
-                const panel = this.nextElementSibling;
-                const arrow = this.querySelector('.arrow');
-
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                    if (arrow) {
-                        arrow.classList.remove('up');
-                        arrow.classList.add('down');
-                    }
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                    if (arrow) {
-                        arrow.classList.remove('down');
-                        arrow.classList.add('up');
-                    }
-                }
-            });
-        });
-
         // Variabili per lo zoom e il trascinamento
         const canvas = document.getElementById('fullscreen-canvas');
         const ctx = canvas.getContext('2d');
@@ -254,7 +231,7 @@
 
         // Immagine di prova
         const img = new Image();
-        img.src = 'OrionProva.png';
+        img.src = 'VortexProva.png';
         img.onload = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -271,14 +248,14 @@
             ctx.restore();
         }
 
-        // Funzione per limitare il trascinamento ai bordi (bordi molto larghi)
+        // Funzione per limitare il trascinamento ai bordi
         function limitPan() {
             const imgWidth = img.width * scale;
             const imgHeight = img.height * scale;
 
-            // Imposta bordi molto larghi (2.5 volte in più delle dimensioni dell'immagine)
-            const maxX = (imgWidth - canvas.width) * 2.5;
-            const maxY = (imgHeight - canvas.height) * 2.5;
+            // Calcola i bordi dinamici in base alle dimensioni dell'immagine e del canvas
+            const maxX = (imgWidth - canvas.width) / 2;
+            const maxY = (imgHeight - canvas.height) / 2;
 
             // Limita l'offsetX e offsetY ai bordi
             offsetX = Math.min(Math.max(offsetX, -maxX), maxX);
