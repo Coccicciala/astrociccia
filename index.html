@@ -412,25 +412,21 @@
         });
     </script>
     <script>
-        // Salva l'ordine corrente nel localStorage quando si clicca su un'immagine
-        document.querySelectorAll('.gallery-item a').forEach(link => {
-            link.addEventListener('click', function() {
-                const gallery = document.getElementById('gallery');
-                const items = Array.from(gallery.getElementsByClassName('gallery-item'));
-                const visibleItems = items.filter(item => item.style.display !== 'none');
-            
-                const order = visibleItems.map(item => {
-                    return {
-                        href: item.querySelector('a').getAttribute('href'),
-                        title: item.getAttribute('data-title')
-                    };
-                });
-            
-                localStorage.setItem('galleryOrder', JSON.stringify(order));
-                localStorage.setItem('currentSort', currentSort);
-                localStorage.setItem('sortDirection', sortDirection);
-            });
+    // Salva ORDINE + FILTRI quando si clicca un'immagine
+    document.querySelectorAll('.gallery-item a').forEach(link => {
+        link.addEventListener('click', () => {
+            // 1. Ordine delle immagini visibili
+            const visibleOrder = Array.from(document.querySelectorAll('.gallery-item[style*="block"], .gallery-item:not([style])'))
+                .map(item => item.querySelector('a').getAttribute('href'));
+        
+            // 2. Stato dei filtri attivi
+            const activeFilters = Array.from(document.querySelectorAll('input[name="type"]:checked'))
+                .map(checkbox => checkbox.value);
+
+            localStorage.setItem('astroGalleryOrder', JSON.stringify(visibleOrder));
+            localStorage.setItem('activeFilters', JSON.stringify(activeFilters));
         });
+    });
     </script>
 </body>
 </html>

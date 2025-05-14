@@ -305,58 +305,36 @@
         // Funzione per navigare tra le immagini
         function navigate(direction) {
         const currentPage = window.location.pathname.split('/').pop();
-        const savedOrder = JSON.parse(localStorage.getItem('galleryOrder') || '[]';
-    
-        let pageOrder = savedOrder.length > 0 ? savedOrder : [
-            {href: 'image1.html', title: 'TITOLO'},
-            {href: 'image2.html', title: 'Orion prova'},
-            {href: 'image3.html', title: 'Saturn prova'},
-            {href: 'image4.html', title: 'Vortice prova'}
+        const savedOrder = JSON.parse(localStorage.getItem('astroGalleryOrder')) || [
+            'image1.html', 'image2.html', 'image3.html', 'image4.html' // Ordine di default
         ];
     
-        const currentIndex = pageOrder.findIndex(item => item.href === currentPage);
+        const currentIndex = savedOrder.indexOf(currentPage);
         const newIndex = currentIndex + direction;
-    
-        if (newIndex >= 0 && newIndex < pageOrder.length) {
-            window.location.href = pageOrder[newIndex].href;
+
+        if (newIndex >= 0 && newIndex < savedOrder.length) {
+            window.location.href = savedOrder[newIndex];
         }
     }
 
-        // Funzione per gestire la visibilità delle frecce
-        function updateNavigationArrows() {
+    // NUOVA funzione updateNavigationArrows()
+    function updateNavigationArrows() {
         const currentPage = window.location.pathname.split('/').pop();
-        const savedOrder = JSON.parse(localStorage.getItem('galleryOrder') || '[]');
+        const savedOrder = JSON.parse(localStorage.getItem('astroGalleryOrder')) || [
+            'image1.html', 'image2.html', 'image3.html', 'image4.html' // Ordine di default
+        ];
     
-    // Se non c'è un ordine salvato, usa l'ordine predefinito
-        let pageOrder = savedOrder.length > 0 ? savedOrder : [
-            {href: 'image1.html', title: 'TITOLO'},
-            {href: 'image2.html', title: 'Orion prova'},
-            {href: 'image3.html', title: 'Saturn prova'},
-            {href: 'image4.html', title: 'Vortice prova'}
-         ];
-    
-    // Trova l'indice della pagina corrente nell'ordine salvato
-        const currentIndex = pageOrder.findIndex(item => item.href === currentPage);
-    
+        const currentIndex = savedOrder.indexOf(currentPage);
         const arrowLeft = document.getElementById('nav-arrow-left');
         const arrowRight = document.getElementById('nav-arrow-right');
-    
-    // Nascondi la freccia sinistra se siamo alla prima pagina o non trovata
-        if (currentIndex <= 0) {
-            arrowLeft.classList.add('hidden');
-        } else {
-            arrowLeft.classList.remove('hidden');
-        }
-    
-    // Nascondi la freccia destra se siamo all'ultima pagina o non trovata
-        if (currentIndex >= pageOrder.length - 1 || currentIndex === -1) {
-            arrowRight.classList.add('hidden');
-        } else {
-            arrowRight.classList.remove('hidden');
-        }
+
+        // Mostra/nascondi frecce in base alla posizione
+        arrowLeft.classList.toggle('hidden', currentIndex <= 0);
+        arrowRight.classList.toggle('hidden', currentIndex >= savedOrder.length - 1 || currentIndex === -1);
     }
-        // Aggiorna le frecce all'avvio della pagina
-        updateNavigationArrows();
+
+    // Aggiungi in fondo (prima di </script>):
+    window.addEventListener('DOMContentLoaded', updateNavigationArrows);
 
         // Zoom con la rotellina del mouse
         canvas.addEventListener('wheel', (event) => {
