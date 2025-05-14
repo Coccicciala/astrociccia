@@ -23,7 +23,7 @@
             height: 100%;
             z-index: -1;
         }
-        .navbar {                            <!--  INIZIO MENU TENDINA -->
+        .navbar {
             background: rgba(0, 0, 0, 0.8);
             padding: 10px;
             position: fixed;
@@ -64,7 +64,7 @@
         }
         .dropdown:hover .dropdown-content {
             display: block;
-        }                                        <!-- FINE MENU TENDINA -->
+        }
         .container {
             background: rgba(0, 0, 0, 0.6);
             padding: 20px;
@@ -102,10 +102,115 @@
             font-size: 14px;
             color: #ccc;
         }
+        
+        /* Stili per i controlli */
+        .controls-dropdown {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+        }
+        
+        .controls-btn {
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .controls-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            background: rgba(0, 0, 0, 0.9);
+            min-width: 200px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .controls-content.show {
+            display: block;
+        }
+        
+        .sort-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .sort-main {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+        
+        .sort-arrow {
+            margin-left: 8px;
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+        
+        .sort-arrow.desc {
+            transform: rotate(180deg);
+        }
+        
+        .sort-options {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: rgba(0, 0, 0, 0.95);
+            min-width: 120px;
+            border-radius: 0 5px 5px 5px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        
+        .sort-container:hover .sort-options {
+            display: block;
+        }
+        
+        .sort-option {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        
+        .sort-option:hover {
+            background: #444;
+        }
+        
+        .sort-option.active {
+            color: #FFDB58;
+            font-weight: bold;
+        }
+        
+        .filter-options {
+            margin-top: 15px;
+            border-top: 1px solid #444;
+            padding-top: 15px;
+        }
+        
+        .filter-options label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+        
+        .filter-options input {
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="overlay"></div>
+    
+    <!-- Menu principale a destra -->
     <div class="navbar">
         <div class="dropdown">
             <button>☰</button>
@@ -117,28 +222,56 @@
         </div>
     </div>
     
+    <!-- Controlli a tendina a sinistra -->
+    <div class="controls-dropdown">
+        <button class="controls-btn" onclick="toggleControls()">⚙️ Filtri</button>
+        <div class="controls-content" id="controlsContent">
+            <div class="sort-container">
+                <div class="sort-main" onclick="toggleSortDirection()">
+                    <span id="sortText">Ordina per titolo</span>
+                    <span class="sort-arrow" id="sortArrow">↓</span>
+                </div>
+                <div class="sort-options">
+                    <div class="sort-option active" data-sort="title" onclick="changeSort('title')">Titolo</div>
+                    <div class="sort-option" data-sort="date" onclick="changeSort('date')">Data</div>
+                    <div class="sort-option" data-sort="type" onclick="changeSort('type')">Tipologia</div>
+                </div>
+            </div>
+            
+            <div class="filter-options">
+                <strong>Mostra solo:</strong>
+                <label><input type="checkbox" name="type" value="pianeta" checked> Pianeti</label>
+                <label><input type="checkbox" name="type" value="luna" checked> Luna</label>
+                <label><input type="checkbox" name="type" value="nebulosa" checked> Nebulose</label>
+                <label><input type="checkbox" name="type" value="galassia" checked> Galassie</label>
+                <label><input type="checkbox" name="type" value="altro" checked> Altro</label>
+            </div>
+        </div>
+    </div>
+    
     <div class="container">
         <h1>QUESTE FOTO NON SONO MIE, SONO DI PROVA</h1>
-        <div class="gallery">
-            <div class="gallery-item">
+        
+        <div class="gallery" id="gallery">
+            <div class="gallery-item" data-title="TITOLO" data-date="2023-01-01" data-type="luna">
                 <a href="image1.html">
                     <img src="LunaProva.png" alt="Astro Image 1">
                 </a>
                 <div class="description">TITOLO</div>
             </div>
-            <div class="gallery-item">
+            <div class="gallery-item" data-title="Orion prova" data-date="2023-01-02" data-type="nebulosa">
                 <a href="image2.html">
                     <img src="OrionProva.png" alt="Astro Image 2">
                 </a>
                 <div class="description">Orion prova</div>
             </div>
-            <div class="gallery-item">
+            <div class="gallery-item" data-title="Saturn prova" data-date="2023-01-03" data-type="pianeta">
                 <a href="image3.html">
                     <img src="SaturnProva.png" alt="Astro Image 3">
                 </a>
                 <div class="description">Saturn prova</div>
             </div>
-            <div class="gallery-item">
+            <div class="gallery-item" data-title="Vortice prova" data-date="2023-01-04" data-type="galassia">
                 <a href="image4.html">
                     <img src="VortexProva.png" alt="Astro Image 4">
                 </a>
@@ -146,5 +279,116 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Variabili per l'ordinamento
+        let currentSort = 'title';
+        let sortDirection = 'asc';
+        
+        // Mostra/nascondi i controlli
+        function toggleControls() {
+            const controls = document.getElementById('controlsContent');
+            controls.classList.toggle('show');
+        }
+        
+        // Cambia criterio di ordinamento
+        function changeSort(sortType) {
+            currentSort = sortType;
+            
+            // Aggiorna testo visualizzato
+            let sortText = '';
+            switch(sortType) {
+                case 'title': sortText = 'titolo'; break;
+                case 'date': sortText = 'data'; break;
+                case 'type': sortText = 'tipologia'; break;
+            }
+            document.getElementById('sortText').textContent = `Ordina per ${sortText}`;
+            
+            // Aggiorna stato attivo nelle opzioni
+            document.querySelectorAll('.sort-option').forEach(option => {
+                option.classList.remove('active');
+                if(option.getAttribute('data-sort') === sortType) {
+                    option.classList.add('active');
+                }
+            });
+            
+            sortGallery();
+        }
+        
+        // Cambia direzione ordinamento
+        function toggleSortDirection() {
+            const arrow = document.getElementById('sortArrow');
+            
+            if (sortDirection === 'asc') {
+                sortDirection = 'desc';
+                arrow.classList.add('desc');
+            } else {
+                sortDirection = 'asc';
+                arrow.classList.remove('desc');
+            }
+            
+            sortGallery();
+        }
+        
+        // Funzione per ordinare la galleria
+        function sortGallery() {
+            const gallery = document.getElementById('gallery');
+            const items = Array.from(gallery.getElementsByClassName('gallery-item'));
+            
+            items.sort((a, b) => {
+                const aVal = a.getAttribute(`data-${currentSort}`).toLowerCase();
+                const bVal = b.getAttribute(`data-${currentSort}`).toLowerCase();
+                
+                if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+                if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            // Rimuovi tutti gli elementi
+            items.forEach(item => gallery.removeChild(item));
+            
+            // Riaggiungi in ordine
+            items.forEach(item => gallery.appendChild(item));
+            
+            // Applica i filtri dopo l'ordinamento
+            filterGallery();
+        }
+        
+        // Funzione per filtrare la galleria
+        function filterGallery() {
+            const checkboxes = document.querySelectorAll('input[name="type"]:checked');
+            const selectedTypes = Array.from(checkboxes).map(cb => cb.value);
+            const items = document.getElementsByClassName('gallery-item');
+            
+            Array.from(items).forEach(item => {
+                const itemType = item.getAttribute('data-type');
+                if (selectedTypes.includes(itemType)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // Chiudi i controlli se si clicca fuori
+        document.addEventListener('click', function(event) {
+            const controls = document.getElementById('controlsContent');
+            const btn = document.querySelector('.controls-btn');
+            
+            if (!controls.contains(event.target) && event.target !== btn) {
+                controls.classList.remove('show');
+            }
+        });
+        
+        // Inizializza i listener per i filtri
+        document.querySelectorAll('input[name="type"]').forEach(checkbox => {
+            checkbox.addEventListener('change', filterGallery);
+        });
+        
+        // Mostra tutte le immagini all'inizio
+        window.onload = function() {
+            filterGallery();
+        };
+    </script>
 </body>
 </html>
