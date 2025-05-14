@@ -390,5 +390,26 @@
             filterGallery();
         };
     </script>
+    <script>
+        // Salva l'ordine corrente nel localStorage quando si clicca su un'immagine
+        document.querySelectorAll('.gallery-item a').forEach(link => {
+            link.addEventListener('click', function() {
+                const gallery = document.getElementById('gallery');
+                const items = Array.from(gallery.getElementsByClassName('gallery-item'));
+                const visibleItems = items.filter(item => item.style.display !== 'none');
+            
+                const order = visibleItems.map(item => {
+                    return {
+                        href: item.querySelector('a').getAttribute('href'),
+                        title: item.getAttribute('data-title')
+                    };
+                });
+            
+                localStorage.setItem('galleryOrder', JSON.stringify(order));
+                localStorage.setItem('currentSort', currentSort);
+                localStorage.setItem('sortDirection', sortDirection);
+            });
+        });
+    </script>
 </body>
 </html>

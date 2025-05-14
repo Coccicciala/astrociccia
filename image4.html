@@ -316,27 +316,37 @@
 
         // Funzione per gestire la visibilità delle frecce
         function updateNavigationArrows() {
-            const currentPage = window.location.pathname.split('/').pop(); // Ottieni il nome della pagina corrente
-            const pageNumber = parseInt(currentPage.replace('image', '').replace('.html', '')); // Estrai il numero
-
-            const arrowLeft = document.getElementById('nav-arrow-left');
-            const arrowRight = document.getElementById('nav-arrow-right');
-
-            // Nascondi la freccia sinistra se siamo alla prima pagina
-            if (pageNumber === 1) {
-                arrowLeft.classList.add('hidden');
-            } else {
-                arrowLeft.classList.remove('hidden');
-            }
-
-            // NASCONDI LA FRECCIA DESTRA SE SIAMO ALL'ULTIMA PAGINA
-            const totalPages = 4; // Modifica questo valore in base al numero totale di pagine
-            if (pageNumber === totalPages) {
-                arrowRight.classList.add('hidden');
-            } else {
-                arrowRight.classList.remove('hidden');
-            }
-        }
+    const currentPage = window.location.pathname.split('/').pop();
+    const savedOrder = JSON.parse(localStorage.getItem('galleryOrder') || '[]');
+    
+    // Se non c'è un ordine salvato, usa l'ordine predefinito
+    let pageOrder = savedOrder.length > 0 ? savedOrder : [
+        {href: 'image1.html', title: 'TITOLO'},
+        {href: 'image2.html', title: 'Orion prova'},
+        {href: 'image3.html', title: 'Saturn prova'},
+        {href: 'image4.html', title: 'Vortice prova'}
+    ];
+    
+    // Trova l'indice della pagina corrente nell'ordine salvato
+    const currentIndex = pageOrder.findIndex(item => item.href === currentPage);
+    
+    const arrowLeft = document.getElementById('nav-arrow-left');
+    const arrowRight = document.getElementById('nav-arrow-right');
+    
+    // Nascondi la freccia sinistra se siamo alla prima pagina o non trovata
+    if (currentIndex <= 0) {
+        arrowLeft.classList.add('hidden');
+    } else {
+        arrowLeft.classList.remove('hidden');
+    }
+    
+    // Nascondi la freccia destra se siamo all'ultima pagina o non trovata
+    if (currentIndex >= pageOrder.length - 1 || currentIndex === -1) {
+        arrowRight.classList.add('hidden');
+    } else {
+        arrowRight.classList.remove('hidden');
+    }
+}
 
         // Aggiorna le frecce all'avvio della pagina
         updateNavigationArrows();
