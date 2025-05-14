@@ -313,12 +313,13 @@
             ctx.restore();
         }
 
-       // NUOVA funzione navigate()
+       // Funzione per navigare tra le immagini
     function navigate(direction) {
         const currentPage = window.location.pathname.split('/').pop();
         const savedOrder = JSON.parse(localStorage.getItem('astroGalleryOrder')) || [
-            'image1.html', 'image2.html', 'image3.html', 'image4.html'
+            'image1.html', 'image2.html', 'image3.html', 'image4.html' // Ordine di default
         ];
+    
         const currentIndex = savedOrder.indexOf(currentPage);
         const newIndex = currentIndex + direction;
 
@@ -327,22 +328,23 @@
         }
     }
 
-    // FUNZIONE updateNavigationArrows MODIFICATA
+    // NUOVA funzione updateNavigationArrows()
     function updateNavigationArrows() {
         const currentPage = window.location.pathname.split('/').pop();
         const savedOrder = JSON.parse(localStorage.getItem('astroGalleryOrder')) || [
-            'image1.html', 'image2.html', 'image3.html', 'image4.html'
+            'image1.html', 'image2.html', 'image3.html', 'image4.html' // Ordine di default
         ];
+    
         const currentIndex = savedOrder.indexOf(currentPage);
-
         const arrowLeft = document.getElementById('nav-arrow-left');
         const arrowRight = document.getElementById('nav-arrow-right');
 
+        // Mostra/nascondi frecce in base alla posizione
         arrowLeft.classList.toggle('hidden', currentIndex <= 0);
         arrowRight.classList.toggle('hidden', currentIndex >= savedOrder.length - 1 || currentIndex === -1);
     }
 
-    // Aggiungi questo in fondo PRIMA di </script>
+    
     window.addEventListener('DOMContentLoaded', updateNavigationArrows);
 
         // Zoom con la rotellina del mouse
