@@ -103,7 +103,6 @@
             color: #ccc;
         }
         
-        /* Stili per i controlli */
         .controls-dropdown {
             position: fixed;
             top: 10px;
@@ -210,11 +209,11 @@
 <body>
     <div class="overlay"></div>
     
-    <!-- Menu principale a destra -->
     <div class="navbar">
         <div class="dropdown">
             <button>☰</button>
             <div class="dropdown-content">
+                <a href="index.html">Gallery</a>
                 <a href="equipment.html">My Equipment</a>
                 <a href="contact.html">Contact</a>
                 <a href="conad.html">Conad</a>
@@ -222,7 +221,6 @@
         </div>
     </div>
     
-    <!-- Controlli a tendina a sinistra -->
     <div class="controls-dropdown">
         <button class="controls-btn" onclick="toggleControls()">⚙️ Filtri</button>
         <div class="controls-content" id="controlsContent">
@@ -281,56 +279,42 @@
     </div>
 
     <script>
-        // Variabili per l'ordinamento
         let currentSort = 'title';
         let sortDirection = 'asc';
+        let isReturningFromImage = false;
         
-        // Mostra/nascondi i controlli
         function toggleControls() {
             const controls = document.getElementById('controlsContent');
             controls.classList.toggle('show');
         }
         
-        // Cambia criterio di ordinamento
         function changeSort(sortType) {
             currentSort = sortType;
-            
-            // Aggiorna testo visualizzato
-            let sortText = '';
-            switch(sortType) {
-                case 'title': sortText = 'titolo'; break;
-                case 'date': sortText = 'data'; break;
-                case 'type': sortText = 'tipologia'; break;
-            }
-            document.getElementById('sortText').textContent = `Ordina per ${sortText}`;
-            
-            // Aggiorna stato attivo nelle opzioni
-            document.querySelectorAll('.sort-option').forEach(option => {
-                option.classList.remove('active');
-                if(option.getAttribute('data-sort') === sortType) {
-                    option.classList.add('active');
-                }
-            });
-            
+            updateSortUI();
             sortGallery();
         }
         
-        // Cambia direzione ordinamento
         function toggleSortDirection() {
-            const arrow = document.getElementById('sortArrow');
-            
-            if (sortDirection === 'asc') {
-                sortDirection = 'desc';
-                arrow.classList.add('desc');
-            } else {
-                sortDirection = 'asc';
-                arrow.classList.remove('desc');
-            }
-            
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            updateSortUI();
             sortGallery();
         }
         
-        // Funzione per ordinare la galleria
+        function updateSortUI() {
+            const sortTextMap = {
+                'title': 'titolo',
+                'date': 'data',
+                'type': 'tipologia'
+            };
+            
+            document.getElementById('sortText').textContent = `Ordina per ${sortTextMap[currentSort]}`;
+            document.getElementById('sortArrow').className = sortDirection === 'asc' ? 'sort-arrow' : 'sort-arrow desc';
+            
+            document.querySelectorAll('.sort-option').forEach(option => {
+                option.classList.toggle('active', option.getAttribute('data-sort') === currentSort);
+            });
+        }
+        
         function sortGallery() {
             const gallery = document.getElementById('gallery');
             const items = Array.from(gallery.getElementsByClassName('gallery-item'));
@@ -344,17 +328,11 @@
                 return 0;
             });
             
-            // Rimuovi tutti gli elementi
             items.forEach(item => gallery.removeChild(item));
-            
-            // Riaggiungi in ordine
             items.forEach(item => gallery.appendChild(item));
-            
-            // Applica i filtri dopo l'ordinamento
             filterGallery();
         }
         
-        // Funzione per filtrare la galleria
         function filterGallery() {
             const checkboxes = document.querySelectorAll('input[name="type"]:checked');
             const selectedTypes = Array.from(checkboxes).map(cb => cb.value);
@@ -362,15 +340,51 @@
             
             Array.from(items).forEach(item => {
                 const itemType = item.getAttribute('data-type');
-                if (selectedTypes.includes(itemType)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+                item.style.display = selectedTypes.includes(itemType) ? 'block' : 'none';
             });
         }
         
-        // Chiudi i controlli se si clicca fuori
+        function saveFullFilterState() {
+            const state = {
+                activeTypes: Array.from(document.querySelectorAll('input[name="type"]:checked')).map(cb => cb.value),
+                sortMethod: currentSort,
+                sortDirection: sortDirection,
+                scrollPosition: window.scrollY
+            };
+            localStorage.setItem('fullFilterState', JSON.stringify(state));
+        }
+        
+        function restoreFullFilterState() {
+            const savedState = JSON.parse(localStorage.getItem('fullFilterState'));
+            if (savedState) {
+                document.querySelectorAll('input[name="type"]').forEach(checkbox => {
+                    checkbox.checked = savedState.activeTypes.includes(checkbox.value);
+                });
+                
+                currentSort = savedState.sortMethod || 'title';
+                sortDirection = savedState.sortDirection || 'asc';
+                updateSortUI();
+                filterGallery();
+                sortGallery();
+                
+                if (savedState.scrollPosition) {
+                    window.scrollTo(0, savedState.scrollPosition);
+                }
+            }
+        }
+        
+        function resetFiltersToDefault() {
+            document.querySelectorAll('input[name="type"]').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            
+            currentSort = 'title';
+            sortDirection = 'asc';
+            updateSortUI();
+            filterGallery();
+            sortGallery();
+        }
+        
         document.addEventListener('click', function(event) {
             const controls = document.getElementById('controlsContent');
             const btn = document.querySelector('.controls-btn');
@@ -380,82 +394,40 @@
             }
         });
         
-        // Inizializza i listener per i filtri
         document.querySelectorAll('input[name="type"]').forEach(checkbox => {
             checkbox.addEventListener('change', filterGallery);
         });
         
-        // Mostra tutte le immagini all'inizio
-        window.onload = function() {
-            filterGallery();
-        };
-    </script>
-    <script>
-    // Salva lo stato completo dei filtri
-    function saveFilterState() {
-        const state = {
-            sort: localStorage.getItem('currentSort') || 'title',
-            direction: localStorage.getItem('sortDirection') || 'asc',
-            types: Array.from(document.querySelectorAll('input[name="type"]:checked')).map(cb => cb.value)
-        };
-        localStorage.setItem('filterState', JSON.stringify(state));
-    }
-
-    // Ripristina lo stato dei filtri
-    function restoreFilterState() {
-        const savedState = JSON.parse(localStorage.getItem('filterState'));
-        if (savedState) {
-            // Ripristina ordinamento
-            changeSort(savedState.sort);
-            if (savedState.direction !== (localStorage.getItem('sortDirection') || 'asc')) {
-                toggleSortDirection();
-            }
-        
-            // Ripristina checkbox
-            document.querySelectorAll('input[name="type"]').forEach(checkbox => {
-                checkbox.checked = savedState.types.includes(checkbox.value);
+        document.querySelectorAll('.gallery-item a').forEach(link => {
+            link.addEventListener('click', function() {
+                isReturningFromImage = true;
+                saveFullFilterState();
+                
+                const visibleOrder = Array.from(document.querySelectorAll('.gallery-item[style*="block"], .gallery-item:not([style])'))
+                    .map(item => item.querySelector('a').getAttribute('href'));
+                localStorage.setItem('astroGalleryOrder', JSON.stringify(visibleOrder));
             });
-        
-            filterGallery();
-        }
-    }
-
-    // Salva quando si clicca un'immagine
-    document.querySelectorAll('.gallery-item a').forEach(link => {
-        link.addEventListener('click', () => {
-            saveFilterState();
-        
-            // Salva anche l'ordine corrente
-            const visibleOrder = Array.from(document.querySelectorAll('.gallery-item[style*="block"], .gallery-item:not([style])'))
-                .map(item => item.querySelector('a').getAttribute('href'));
-            localStorage.setItem('astroGalleryOrder', JSON.stringify(visibleOrder));
         });
-    });
-
-    // Ripristina al caricamento
-    window.addEventListener('DOMContentLoaded', restoreFilterState);
-
-    // Modifica il link "Back to Gallery" nelle pagine immagini
-    document.addEventListener('DOMContentLoaded', function() {
-        const backLinks = document.querySelectorAll('a[href="index.html"]');
-        backLinks.forEach(link => {
-            if (!link.classList.contains('menu-link')) { // Esclude il link del menu
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    saveFilterState();
-                    window.location.href = 'index.html';
-                });
+        
+        document.querySelectorAll('.dropdown-content a[href="index.html"]').forEach(link => {
+            link.addEventListener('click', function() {
+                localStorage.removeItem('fullFilterState');
+                localStorage.removeItem('astroGalleryOrder');
+                isReturningFromImage = false;
+            });
+        });
+        
+        window.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('shouldRestoreFilters') === 'true') {
+                localStorage.removeItem('shouldRestoreFilters');
+                isReturningFromImage = true;
+                restoreFullFilterState();
+            }
+            
+            if (!isReturningFromImage) {
+                resetFiltersToDefault();
             }
         });
-    });
-
-    // Aggiungi questo alla fine del tuo script esistente in index.html
-    window.addEventListener('DOMContentLoaded', function() {
-        if (localStorage.getItem('preserveFilters') === 'true') {
-            localStorage.removeItem('preserveFilters');
-            restoreFilterState();
-        }
-    });
     </script>
 </body>
 </html>
