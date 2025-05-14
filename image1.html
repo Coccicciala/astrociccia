@@ -237,7 +237,7 @@
         </div>
 
         <a href="rawdata1.zip" class="download-link">Download RAW Data</a>
-        <p><a href="index.html" style="color: #FFDB58;">Back to Gallery</a></p>
+        <p><a href="#" onclick="saveAndGoToGallery()" style="color: #FFDB58;">Back to Gallery</a></p>
     </div>
 
     <!-- Frecce di navigazione -->
@@ -248,6 +248,17 @@
         <span class="close" onclick="closeFullscreen()">&times;</span>
         <canvas id="fullscreen-canvas"></canvas>
     </div>
+
+    <script>
+    function saveAndGoToGallery() {
+        // Salva lo stato prima di tornare
+        fetch('index.html')
+            .then(() => {
+                localStorage.setItem('preserveFilters', 'true');
+                window.location.href = 'index.html';
+            });
+    }
+    </script>
 
     <script>
         // Funzione per aprire/chiudere le sezioni a tendina
@@ -306,9 +317,8 @@
     function navigate(direction) {
         const currentPage = window.location.pathname.split('/').pop();
         const savedOrder = JSON.parse(localStorage.getItem('astroGalleryOrder')) || [
-            'image1.html', 'image2.html', 'image3.html', 'image4.html' // Ordine di default
+            'image1.html', 'image2.html', 'image3.html', 'image4.html'
         ];
-    
         const currentIndex = savedOrder.indexOf(currentPage);
         const newIndex = currentIndex + direction;
 
@@ -317,23 +327,22 @@
         }
     }
 
-    // NUOVA funzione updateNavigationArrows()
+    // FUNZIONE updateNavigationArrows MODIFICATA
     function updateNavigationArrows() {
         const currentPage = window.location.pathname.split('/').pop();
         const savedOrder = JSON.parse(localStorage.getItem('astroGalleryOrder')) || [
-            'image1.html', 'image2.html', 'image3.html', 'image4.html' // Ordine di default
+            'image1.html', 'image2.html', 'image3.html', 'image4.html'
         ];
-    
         const currentIndex = savedOrder.indexOf(currentPage);
+
         const arrowLeft = document.getElementById('nav-arrow-left');
         const arrowRight = document.getElementById('nav-arrow-right');
 
-        // Mostra/nascondi frecce in base alla posizione
         arrowLeft.classList.toggle('hidden', currentIndex <= 0);
         arrowRight.classList.toggle('hidden', currentIndex >= savedOrder.length - 1 || currentIndex === -1);
     }
 
-    
+    // Aggiungi questo in fondo PRIMA di </script>
     window.addEventListener('DOMContentLoaded', updateNavigationArrows);
 
         // Zoom con la rotellina del mouse

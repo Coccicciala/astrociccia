@@ -391,41 +391,70 @@
         };
     </script>
     <script>
-        // Salva l'ordine corrente nel localStorage quando si clicca su un'immagine
-        document.querySelectorAll('.gallery-item a').forEach(link => {
-            link.addEventListener('click', function() {
-                const gallery = document.getElementById('gallery');
-                const items = Array.from(gallery.getElementsByClassName('gallery-item'));
-                const visibleItems = items.filter(item => item.style.display !== 'none');
-            
-                const order = visibleItems.map(item => {
-                    return {
-                        href: item.querySelector('a').getAttribute('href'),
-                        title: item.getAttribute('data-title')
-                    };
-                });
-            
-                localStorage.setItem('galleryOrder', JSON.stringify(order));
-                localStorage.setItem('currentSort', currentSort);
-                localStorage.setItem('sortDirection', sortDirection);
+    // Salva lo stato completo dei filtri
+    function saveFilterState() {
+        const state = {
+            sort: localStorage.getItem('currentSort') || 'title',
+            direction: localStorage.getItem('sortDirection') || 'asc',
+            types: Array.from(document.querySelectorAll('input[name="type"]:checked')).map(cb => cb.value)
+        };
+        localStorage.setItem('filterState', JSON.stringify(state));
+    }
+
+    // Ripristina lo stato dei filtri
+    function restoreFilterState() {
+        const savedState = JSON.parse(localStorage.getItem('filterState'));
+        if (savedState) {
+            // Ripristina ordinamento
+            changeSort(savedState.sort);
+            if (savedState.direction !== (localStorage.getItem('sortDirection') || 'asc')) {
+                toggleSortDirection();
+            }
+        
+            // Ripristina checkbox
+            document.querySelectorAll('input[name="type"]').forEach(checkbox => {
+                checkbox.checked = savedState.types.includes(checkbox.value);
             });
-        });
-    </script>
-    <script>
-    // Salva ORDINE + FILTRI quando si clicca un'immagine
+        
+            filterGallery();
+        }
+    }
+
+    // Salva quando si clicca un'immagine
     document.querySelectorAll('.gallery-item a').forEach(link => {
         link.addEventListener('click', () => {
-            // 1. Ordine delle immagini visibili
+            saveFilterState();
+        
+            // Salva anche l'ordine corrente
             const visibleOrder = Array.from(document.querySelectorAll('.gallery-item[style*="block"], .gallery-item:not([style])'))
                 .map(item => item.querySelector('a').getAttribute('href'));
-        
-            // 2. Stato dei filtri attivi
-            const activeFilters = Array.from(document.querySelectorAll('input[name="type"]:checked'))
-                .map(checkbox => checkbox.value);
-
             localStorage.setItem('astroGalleryOrder', JSON.stringify(visibleOrder));
-            localStorage.setItem('activeFilters', JSON.stringify(activeFilters));
         });
+    });
+
+    // Ripristina al caricamento
+    window.addEventListener('DOMContentLoaded', restoreFilterState);
+
+    // Modifica il link "Back to Gallery" nelle pagine immagini
+    document.addEventListener('DOMContentLoaded', function() {
+        const backLinks = document.querySelectorAll('a[href="index.html"]');
+        backLinks.forEach(link => {
+            if (!link.classList.contains('menu-link')) { // Esclude il link del menu
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    saveFilterState();
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    });
+
+    // Aggiungi questo alla fine del tuo script esistente in index.html
+    window.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('preserveFilters') === 'true') {
+            localStorage.removeItem('preserveFilters');
+            restoreFilterState();
+        }
     });
     </script>
 </body>
