@@ -114,10 +114,19 @@
             background: rgba(0, 0, 0, 0.8);
             color: #fff;
             border: none;
-            padding: 10px;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-icon {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
         }
         
         .controls-content {
@@ -222,7 +231,14 @@
     </div>
     
     <div class="controls-dropdown">
-        <button class="controls-btn" onclick="toggleControls()">⚙️ Filtri</button>
+        <button class="controls-btn" onclick="toggleControls()">
+            <span class="filter-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                    <path d="M4 6h16v2H4zm2 5h12v2H6zm3 5h6v2H9z"/>
+                </svg>
+            </span>
+            Filtri
+        </button>
         <div class="controls-content" id="controlsContent">
             <div class="sort-container">
                 <div class="sort-main" onclick="toggleSortDirection()">
