@@ -283,6 +283,15 @@
         return false;
     }
 
+    function downloadFullscreenImage() {
+        const link = document.createElement('a');
+        link.download = 'OrionProva.png'; // Scarica direttamente il PNG originale
+        link.href = 'OrionProva.png'; // Percorso diretto all'immagine originale
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     const accordions = document.querySelectorAll('.accordion');
     accordions.forEach(accordion => {
         accordion.addEventListener('click', function() {
@@ -305,15 +314,6 @@
             }
         });
     });
-
-    function downloadFullscreenImage() {
-        const link = document.createElement('a');
-        link.download = 'astro-image-full.png';
-        link.href = document.querySelector('.astro-image').src;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
 
     const canvas = document.getElementById('fullscreen-canvas');
     const ctx = canvas.getContext('2d');

@@ -242,12 +242,12 @@
         <div class="controls-content" id="controlsContent">
             <div class="sort-container">
                 <div class="sort-main" onclick="toggleSortDirection()">
-                    <span id="sortText">Ordina per titolo</span>
-                    <span class="sort-arrow" id="sortArrow">↓</span>
+                    <span id="sortText">Ordina per data</span>
+                    <span class="sort-arrow desc" id="sortArrow">↓</span>
                 </div>
                 <div class="sort-options">
-                    <div class="sort-option active" data-sort="title" onclick="changeSort('title')">Titolo</div>
-                    <div class="sort-option" data-sort="date" onclick="changeSort('date')">Data</div>
+                    <div class="sort-option" data-sort="title" onclick="changeSort('title')">Titolo</div>
+                    <div class="sort-option active" data-sort="date" onclick="changeSort('date')">Data</div>
                     <div class="sort-option" data-sort="type" onclick="changeSort('type')">Tipologia</div>
                 </div>
             </div>
@@ -295,8 +295,8 @@
     </div>
 
     <script>
-        let currentSort = 'title';
-        let sortDirection = 'asc';
+        let currentSort = 'date';
+        let sortDirection = 'desc';
         let isReturningFromImage = false;
         
         function toggleControls() {
@@ -339,9 +339,17 @@
                 const aVal = a.getAttribute(`data-${currentSort}`).toLowerCase();
                 const bVal = b.getAttribute(`data-${currentSort}`).toLowerCase();
                 
-                if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
-                if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
-                return 0;
+                if (currentSort === 'date') {
+                    // Ordinamento speciale per date
+                    const dateA = new Date(aVal);
+                    const dateB = new Date(bVal);
+                    return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
+                } else {
+                    // Ordinamento normale per altri campi
+                    if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+                    if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+                    return 0;
+                }
             });
             
             items.forEach(item => gallery.removeChild(item));
@@ -377,8 +385,8 @@
                     checkbox.checked = savedState.activeTypes.includes(checkbox.value);
                 });
                 
-                currentSort = savedState.sortMethod || 'title';
-                sortDirection = savedState.sortDirection || 'asc';
+                currentSort = savedState.sortMethod || 'date';
+                sortDirection = savedState.sortDirection || 'desc';
                 updateSortUI();
                 filterGallery();
                 sortGallery();
@@ -394,8 +402,8 @@
                 checkbox.checked = true;
             });
             
-            currentSort = 'title';
-            sortDirection = 'asc';
+            currentSort = 'date';
+            sortDirection = 'desc';
             updateSortUI();
             filterGallery();
             sortGallery();
