@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stronzo chi legge</title>
+    <!-- Aggiungi Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             background: url('SFONDO.png') no-repeat center center fixed;
@@ -15,15 +17,16 @@
             padding: 0;
         }
         .container {
-            max-width: 600px; /* Larghezza del contenitore */
-            margin: 0 auto; /* Centra il contenitore */
+            max-width: 600px;
+            margin: 0 auto;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7); /* Sfondo nero semitrasparente */
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
             position: relative;
             z-index: 1;
+            margin-top: 60px; /* Spazio per il menu */
         }
-        .navbar {                             <!-- INIZIO MENU TENDINA -->
+        .navbar {
             background: rgba(0, 0, 0, 0.8);
             padding: 10px;
             position: fixed;
@@ -64,7 +67,25 @@
         }
         .dropdown:hover .dropdown-content {
             display: block;
-        }                                       <!-- FINE MENU TENDINA -->
+        }
+        /* Stile per le icone */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .contact-item i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        .social-profiles {
+            margin-left: 34px; /* Allineamento con l'icona sopra */
+            text-align: left;
+        }
+        .social-profiles p {
+            margin: 8px 0;
+        }
     </style>
 </head>
 <body>
@@ -82,10 +103,25 @@
     <div class="container">
         <h1>LINKS</h1>
         <p>Mi trovate qui</p>
-        <p><strong>Main Instagram:</strong> <a href="https://www.instagram.com/tommy_cicca_/?utm_source=ig_web_button_share_sheet" style="color: #87CEEB;" target="_blank">@tommy_cicca_</a></p>
-        <p><strong>Astro images instagram:</strong> <a href="https://www.instagram.com/astrociccia" style="color: #87CEEB;" target="_blank">@astrociccia</a></p>
-        <p><strong>Email:</strong> tommasocicca626@gmail.com</p>
-        <p><strong>GitHub Repository:</strong> <a href="https://github.com/Coccicciala/astrociccia.git" style="color: #87CEEB;" target="_blank">https://github.com/Coccicciala/astrociccia.git</a></p>
+        
+        <div class="contact-item">
+            <i class="fa-brands fa-instagram"></i>
+            <div class="social-profiles">
+                <p><strong>Main Instagram:</strong> <a href="https://www.instagram.com/tommy_cicca_/?utm_source=ig_web_button_share_sheet" style="color: #87CEEB;" target="_blank">@tommy_cicca_</a></p>
+                <p>Astro images instagram:</strong> <a href="https://www.instagram.com/astrociccia" style="color: #87CEEB;" target="_blank">@astrociccia</a></p>
+            </div>
+        </div>
+        
+        <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <p>tommasocicca626@gmail.com</p>
+        </div>
+        
+        <div class="contact-item">
+            <i class="fa-brands fa-github"></i>
+            <p><a href="https://github.com/Coccicciala/astrociccia.git" style="color: #87CEEB;" target="_blank">Coccicciala/astrociccia.git</a></p>
+        </div>
+        
         <p><a href="index.html" style="color: #FFDB58;">Back to Gallery</a></p>
     </div>
 </body>
