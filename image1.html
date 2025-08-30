@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titolino scheda</title>
+    <title>Caldwell 30</title>
     <style>
         body {
-            background: url('LunaProva.png') no-repeat center center fixed;
+            background: url('Caldwell 30.png') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
             font-family: Arial, sans-serif;
@@ -231,32 +231,29 @@
     </div>
     
     <div class="container">
-        <h1>TITOLO FOTO</h1>
-        <img src="LunaProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
+        <h1>Caldwell 30</h1>
+        <img src="Caldwell 30.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
         <button class="accordion">
             Dettagli degli scatti
             <span class="arrow down">▼</span>
         </button>
         <div class="panel">
-            <p>L: 126x420s</p>
-            <p>R: 69x420s</p>
-            <p>G: 69x420s</p>
-            <p>B: 69x420s</p>
-            <p>Ha: 1x5s</p>
-            <p>OIII: 5 sceicchi</p>
-            <p>SII: 1x5s</p>
-            <p>Data: 11 Settembre 2001</p>
-            <p>Luogo: Manfredonia</p>
-            <p>Strumenti utilizzati: Chi si fa i cazzi suoi campa 100anni</p>
+            <p>L: 12x300s</p>
+            <p>R: 8x120s</p>
+            <p>G: 8x120s</p>
+            <p>B: 8x120s</p>
+            <p>Data: 27 Agosto 2025</p>
+            <p>Luogo: Rialto-Terminillo</p>
+            <p>Strumenti utilizzati: (See "My Equipment" tab</p>
         </div>
 
         <button class="accordion open">
             Descrizione dell'immagine
         </button>
         <div class="panel open">
-            <p>Questa immagine mostra la galassia dei pagliacci</p>
-            <p>Un aneddoto interessante: franco126</p>
+            <p>Caldwell 30, also known as NGC 7331, is located in the Pegasus constellation and it's a spiral galaxy about 45 million light-years away discovered in 1784 by William Herschel.</p>
+            <p>Un aneddoto interessante: It was often called the "Milky Way's twin" due to its similarity in size and appearance, however this title was lost due to the characteristic counter-rotation of its center relative to the outer ring.</p>
         </div>
 
         <a href="rawdata1.zip" class="download-link">Download RAW Data</a>
@@ -285,8 +282,8 @@
 
     function downloadFullscreenImage() {
         const link = document.createElement('a');
-        link.download = 'LunaProva.png'; // Scarica direttamente il PNG originale
-        link.href = 'LunaProva.png'; // Percorso diretto all'immagine originale
+        link.download = 'Caldwell 30.png'; // Scarica direttamente il PNG originale
+        link.href = 'Caldwell 30.png'; // Percorso diretto all'immagine originale
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -324,7 +321,7 @@
     let startX, startY;
 
     const img = new Image();
-    img.src = 'LunaProva.png';
+    img.src = 'Caldwell 30.png';
     img.onload = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
