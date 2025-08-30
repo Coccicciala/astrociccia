@@ -235,23 +235,23 @@
                     <path d="M4 6h16v2H4zm2 5h12v2H6zm3 5h6v2H9z"/>
                 </svg>
             </span>
-            Filtri
+            Filters
         </button>
         <div class="controls-content" id="controlsContent">
             <div class="sort-container">
                 <div class="sort-main" onclick="toggleSortDirection()">
-                    <span id="sortText">Ordina per data</span>
+                    <span id="sortText">Sort by date</span>
                     <span class="sort-arrow desc" id="sortArrow">↓</span>
                 </div>
                 <div class="sort-options">
-                    <div class="sort-option" data-sort="title" onclick="changeSort('title')">Titolo</div>
-                    <div class="sort-option active" data-sort="date" onclick="changeSort('date')">Data</div>
-                    <div class="sort-option" data-sort="type" onclick="changeSort('type')">Tipologia</div>
+                    <div class="sort-option" data-sort="title" onclick="changeSort('title')">Title</div>
+                    <div class="sort-option active" data-sort="date" onclick="changeSort('date')">Date</div>
+                    <div class="sort-option" data-sort="type" onclick="changeSort('type')">Type</div>
                 </div>
             </div>
             
             <div class="filter-options">
-                <strong>Mostra solo:</strong>
+                <strong>Only show:</strong>
                 <label><input type="checkbox" name="type" value="pianeta" checked> Planets</label>
                 <label><input type="checkbox" name="type" value="luna" checked> Moon</label>
                 <label><input type="checkbox" name="type" value="nebulosa" checked> Nebulae</label>
@@ -321,7 +321,7 @@
                 'type': 'tipologia'
             };
             
-            document.getElementById('sortText').textContent = `Ordina per ${sortTextMap[currentSort]}`;
+            document.getElementById('sortText').textContent = `Sort by ${sortTextMap[currentSort]}`;
             document.getElementById('sortArrow').className = sortDirection === 'asc' ? 'sort-arrow' : 'sort-arrow desc';
             
             document.querySelectorAll('.sort-option').forEach(option => {
