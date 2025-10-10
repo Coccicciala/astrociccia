@@ -6,7 +6,7 @@
     <title>Titolino scheda</title>
     <style>
         body {
-            background: url('OrionProva.png') no-repeat center center fixed;
+            background: url('luna def bs.png') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
             font-family: Arial, sans-serif;
@@ -232,31 +232,25 @@
     
     <div class="container">
         <h1>TITOLO FOTO</h1>
-        <img src="OrionProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
+        <img src="luna def bs.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
         <button class="accordion">
             Dettagli degli scatti
             <span class="arrow down">▼</span>
         </button>
         <div class="panel">
-            <p>L: 126x420s</p>
-            <p>R: 69x420s</p>
-            <p>G: 69x420s</p>
-            <p>B: 69x420s</p>
-            <p>Ha: 1x5s</p>
-            <p>OIII: 5 sceicchi</p>
-            <p>SII: 1x5s</p>
-            <p>Data: 11 Settembre 2001</p>
-            <p>Luogo: Manfredonia</p>
-            <p>Strumenti utilizzati: Chi si fa i cazzi suoi campa 100anni</p>
+            <p>L: 70x0.001s</p>
+            <p>Data: 9 Ottobre 2025</p>
+            <p>Luogo: Pisa centro</p>
+            <p>Strumenti utilizzati: (See "My Equipment" tab)</p>
         </div>
 
         <button class="accordion open">
             Descrizione dell'immagine
         </button>
         <div class="panel open">
-            <p>Questa immagine mostra la galassia dei pagliacci</p>
-            <p>Un aneddoto interessante: franco126</p>
+            <p>La luna in bianco e nero fotografata utilizzando la deep-sky perché sono un incapace </p>
+            <p>Un aneddoto interessante: anche il mio cane si chiama luna</p>
         </div>
 
         <a href="rawdata1.zip" class="download-link">Download RAW Data</a>
@@ -285,8 +279,8 @@
 
     function downloadFullscreenImage() {
         const link = document.createElement('a');
-        link.download = 'OrionProva.png'; // Scarica direttamente il PNG originale
-        link.href = 'OrionProva.png'; // Percorso diretto all'immagine originale
+        link.download = 'luna def bs.png'; // Scarica direttamente il PNG originale
+        link.href = 'luna def bs.png'; // Percorso diretto all'immagine originale
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -324,7 +318,7 @@
     let startX, startY;
 
     const img = new Image();
-    img.src = 'OrionProva.png';
+    img.src = 'luna def bs.png';
     img.onload = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
