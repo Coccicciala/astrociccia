@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Titolino scheda</title>
+    <title>sombrero</title>
     <style>
         body {
-            background: url('SaturnProva.png') no-repeat center center fixed;
+            background: url('m104.png') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
             font-family: Arial, sans-serif;
@@ -231,32 +231,29 @@
     </div>
     
     <div class="container">
-        <h1>TITOLO FOTO</h1>
-        <img src="SaturnProva.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
+        <h1>Sombrero Galaxy</h1>
+        <img src="m104.png" alt="Astro Image 1" class="astro-image" onclick="openFullscreen()">
 
         <button class="accordion">
             Dettagli degli scatti
             <span class="arrow down">▼</span>
         </button>
         <div class="panel">
-            <p>L: 126x420s</p>
-            <p>R: 69x420s</p>
-            <p>G: 69x420s</p>
-            <p>B: 69x420s</p>
-            <p>Ha: 1x5s</p>
-            <p>OIII: 5 sceicchi</p>
-            <p>SII: 1x5s</p>
-            <p>Data: 11 Settembre 2001</p>
-            <p>Luogo: Manfredonia</p>
-            <p>Strumenti utilizzati: Chi si fa i cazzi suoi campa 100anni</p>
+            <p>L: 30x180s</p>
+            <p>R: 4x180s</p>
+            <p>G: 4x180s</p>
+            <p>B: 4x180s</p>
+            <p>Data: 22 Maggio 2026</p>
+            <p>Luogo: Pisa</p>
+            <p>Strumenti utilizzati: Zwo 220</p>
         </div>
 
         <button class="accordion open">
             Descrizione dell'immagine
         </button>
         <div class="panel open">
-            <p>Questa immagine mostra la galassia dei pagliacci</p>
-            <p>Un aneddoto interessante: franco126</p>
+            <p>Sombrero Galaxy.</p>
+            <p>My favourite</p>
         </div>
 
         <a href="rawdata1.zip" class="download-link">Download RAW Data</a>
@@ -285,8 +282,8 @@
 
     function downloadFullscreenImage() {
         const link = document.createElement('a');
-        link.download = 'SaturnProva.png'; // Scarica direttamente il PNG originale
-        link.href = 'SaturnProva.png'; // Percorso diretto all'immagine originale
+        link.download = 'm104.png'; // Scarica direttamente il PNG originale
+        link.href = 'm104.png'; // Percorso diretto all'immagine originale
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -324,7 +321,7 @@
     let startX, startY;
 
     const img = new Image();
-    img.src = 'SaturnProva.png';
+    img.src = 'm104.png';
     img.onload = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
